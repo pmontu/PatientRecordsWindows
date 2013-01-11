@@ -34,7 +34,13 @@ namespace PatientRecordsWindows
             childForm.Dock = DockStyle.Fill;
             childForm.Show();
         }
-
+        public void ShowPatientDetails(String patientid)
+        {
+            PatientDetails childForm = new PatientDetails(patientid);
+            childForm.MdiParent = this;
+            childForm.Dock = DockStyle.Fill;
+            childForm.Show();
+        }
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -97,6 +103,10 @@ namespace PatientRecordsWindows
             {
                 childForm.Close();
             }
+        }
+
+        private void helpToolStripButton_Click(object sender, EventArgs e)
+        {
         }
     }
 }
