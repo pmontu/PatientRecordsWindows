@@ -1,4 +1,6 @@
-﻿using NHibernate.Cfg;
+﻿using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,9 +13,12 @@ using System.Windows.Forms;
 
 namespace PatientRecordsWindows
 {
+
     public partial class MDIParent1 : Form
     {
-        private int childFormNumber = 0;
+        Configuration cfg;
+        ISessionFactory sessions;
+        public ISession sess;
 
         public MDIParent1()
         {
@@ -101,25 +106,39 @@ namespace PatientRecordsWindows
 
         private void helpToolStripButton_Click(object sender, EventArgs e)
         {
-            var cfg = new Configuration();
-            cfg.Configure();
-            cfg.AddAssembly(typeof(BusinessObject.Patient).Assembly);
 
-            // Get ourselves an NHibernate Session
-            var sessions = cfg.BuildSessionFactory();
-            var sess = sessions.OpenSession();
+            //new SchemaExport(this.cfg).Create(true, true);
 
             // Create a Product...
-            var patient = new BusinessObject.Patient
+            var patient = new Domain.Patient
             {
-                name = "user 3",
+                name = "user 4",
                 age = 50,
                 gender = "M"
             };
 
             // And save it to the database
-            sess.Save(patient);
-            sess.Flush();
+            this.sess.Save(patient);
+            this.sess.Flush();
+
+            IQuery q = this.sess.CreateQuery("FROM Patient");
+            var list = q.List<Domain.Patient>();
+
+            // List all the entries' names
+            string str = "";
+            list.ToList().ForEach(p => str += p.name);
+            MessageBox.Show(str);
+        }
+
+        private void MDIParent1_Load(object sender, EventArgs e)
+        {
+            this.cfg = new Configuration();
+            this.cfg.Configure();
+            this.cfg.AddAssembly(typeof(Domain.Patient).Assembly);
+
+            // Get ourselves an NHibernate Session
+            this.sessions = this.cfg.BuildSessionFactory();
+            this.sess = sessions.OpenSession();
         }
     }
 }

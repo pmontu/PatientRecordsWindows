@@ -136,6 +136,7 @@
             this.IsMdiContainer = true;
             this.Name = "MDIParent1";
             this.Text = "MDIParent1";
+            this.Load += new System.EventHandler(this.MDIParent1_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
