@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate.Cfg;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,13 +44,6 @@ namespace PatientRecordsWindows
         }
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                string FileName = saveFileDialog.FileName;
-            }
         }
 
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
@@ -107,6 +101,25 @@ namespace PatientRecordsWindows
 
         private void helpToolStripButton_Click(object sender, EventArgs e)
         {
+            var cfg = new Configuration();
+            cfg.Configure();
+            cfg.AddAssembly(typeof(BusinessObject.Patient).Assembly);
+
+            // Get ourselves an NHibernate Session
+            var sessions = cfg.BuildSessionFactory();
+            var sess = sessions.OpenSession();
+
+            // Create a Product...
+            var patient = new BusinessObject.Patient
+            {
+                name = "user 3",
+                age = 50,
+                gender = "M"
+            };
+
+            // And save it to the database
+            sess.Save(patient);
+            sess.Flush();
         }
     }
 }
