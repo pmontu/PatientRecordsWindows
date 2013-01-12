@@ -161,7 +161,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form2";
             this.Text = "Form2";
-            this.Activated += new System.EventHandler(this.Form2_Activated);
+            this.Activated += new System.EventHandler(this.PatientSearch_Activated);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

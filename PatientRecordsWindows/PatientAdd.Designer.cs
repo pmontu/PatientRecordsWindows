@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPatientAddSave = new System.Windows.Forms.Button();
             this.rbF = new System.Windows.Forms.RadioButton();
             this.rbM = new System.Windows.Forms.RadioButton();
             this.txtAge = new System.Windows.Forms.TextBox();
@@ -42,7 +42,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.btnPatientAddSave);
             this.groupBox1.Controls.Add(this.rbF);
             this.groupBox1.Controls.Add(this.rbM);
             this.groupBox1.Controls.Add(this.txtAge);
@@ -58,15 +58,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Register New Patient";
             // 
-            // button1
+            // btnPatientAddSave
             // 
-            this.button1.Location = new System.Drawing.Point(9, 111);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnPatientAddSave.Location = new System.Drawing.Point(9, 111);
+            this.btnPatientAddSave.Name = "btnPatientAddSave";
+            this.btnPatientAddSave.Size = new System.Drawing.Size(75, 23);
+            this.btnPatientAddSave.TabIndex = 16;
+            this.btnPatientAddSave.Text = "Save";
+            this.btnPatientAddSave.UseVisualStyleBackColor = true;
+            this.btnPatientAddSave.Click += new System.EventHandler(this.btnPatientAddSave_Click);
             // 
             // rbF
             // 
@@ -131,14 +131,14 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "Name";
             // 
-            // Form1
+            // PatientAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "PatientAdd";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -149,7 +149,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPatientAddSave;
         private System.Windows.Forms.RadioButton rbF;
         private System.Windows.Forms.RadioButton rbM;
         private System.Windows.Forms.TextBox txtAge;

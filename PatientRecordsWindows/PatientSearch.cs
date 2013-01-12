@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,14 +19,14 @@ namespace PatientRecordsWindows
             InitializeComponent();
         }
 
-        private void Form2_Activated(object sender, EventArgs e)
+        private void PatientSearch_Activated(object sender, EventArgs e)
         {
+            var sess = ((Container)this.ParentForm).sess;
+            IQuery q = sess.CreateQuery("FROM Patient");
+            var patients = q.List<Domain.Patient>();
+
             listBox1.SelectedIndexChanged -= listBox1_SelectedIndexChanged;
-            SQLiteConnection con = new SQLiteConnection("Data Source=PR.sqlite;Version=3;");
-            SQLiteDataAdapter da = new SQLiteDataAdapter("select Id,name from patient", con);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            listBox1.DataSource = ds.Tables[0];
+            listBox1.DataSource = patients;
             listBox1.DisplayMember = "name";
             listBox1.ValueMember = "Id";
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;

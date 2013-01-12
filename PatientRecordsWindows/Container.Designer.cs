@@ -135,7 +135,7 @@
             this.Controls.Add(this.toolStrip);
             this.IsMdiContainer = true;
             this.Name = "Container";
-            this.Text = "MDIParent1";
+            this.Text = "Patient Records";
             this.Load += new System.EventHandler(this.MDIParent1_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
