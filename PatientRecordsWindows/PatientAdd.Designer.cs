@@ -1,6 +1,6 @@
 ﻿namespace PatientRecordsWindows
 {
-    partial class Form1
+    partial class PatientAdd
     {
         /// <summary>
         /// Required designer variable.

@@ -1,6 +1,6 @@
 ﻿namespace PatientRecordsWindows
 {
-    partial class MDIParent1
+    partial class Container
     {
         /// <summary>
         /// Required designer variable.
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MDIParent1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Container));
             this.toolStrip = new System.Windows.Forms.ToolStrip();
-            this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.btnPatientAdd = new System.Windows.Forms.ToolStripButton();
+            this.btnPatientSearch = new System.Windows.Forms.ToolStripButton();
             this.saveToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.printToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -46,8 +46,8 @@
             // toolStrip
             // 
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newToolStripButton,
-            this.openToolStripButton,
+            this.btnPatientAdd,
+            this.btnPatientSearch,
             this.saveToolStripButton,
             this.toolStripSeparator1,
             this.printToolStripButton,
@@ -60,25 +60,25 @@
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
             // 
-            // newToolStripButton
+            // btnPatientAdd
             // 
-            this.newToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.newToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("newToolStripButton.Image")));
-            this.newToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
-            this.newToolStripButton.Name = "newToolStripButton";
-            this.newToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.newToolStripButton.Text = "New";
-            this.newToolStripButton.Click += new System.EventHandler(this.ShowNewForm);
+            this.btnPatientAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPatientAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnPatientAdd.Image")));
+            this.btnPatientAdd.ImageTransparentColor = System.Drawing.Color.Black;
+            this.btnPatientAdd.Name = "btnPatientAdd";
+            this.btnPatientAdd.Size = new System.Drawing.Size(23, 22);
+            this.btnPatientAdd.Text = "New";
+            this.btnPatientAdd.Click += new System.EventHandler(this.PatientAdd);
             // 
-            // openToolStripButton
+            // btnPatientSearch
             // 
-            this.openToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.openToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("openToolStripButton.Image")));
-            this.openToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
-            this.openToolStripButton.Name = "openToolStripButton";
-            this.openToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.openToolStripButton.Text = "Open";
-            this.openToolStripButton.Click += new System.EventHandler(this.OpenFile);
+            this.btnPatientSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPatientSearch.Image = ((System.Drawing.Image)(resources.GetObject("btnPatientSearch.Image")));
+            this.btnPatientSearch.ImageTransparentColor = System.Drawing.Color.Black;
+            this.btnPatientSearch.Name = "btnPatientSearch";
+            this.btnPatientSearch.Size = new System.Drawing.Size(23, 22);
+            this.btnPatientSearch.Text = "Search";
+            this.btnPatientSearch.Click += new System.EventHandler(this.PatientSearch);
             // 
             // saveToolStripButton
             // 
@@ -127,14 +127,14 @@
             this.helpToolStripButton.Text = "Help";
             this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
             // 
-            // MDIParent1
+            // Container
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(632, 453);
             this.Controls.Add(this.toolStrip);
             this.IsMdiContainer = true;
-            this.Name = "MDIParent1";
+            this.Name = "Container";
             this.Text = "MDIParent1";
             this.Load += new System.EventHandler(this.MDIParent1_Load);
             this.toolStrip.ResumeLayout(false);
@@ -148,8 +148,8 @@
         private System.Windows.Forms.ToolStrip toolStrip;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripButton newToolStripButton;
-        private System.Windows.Forms.ToolStripButton openToolStripButton;
+        private System.Windows.Forms.ToolStripButton btnPatientAdd;
+        private System.Windows.Forms.ToolStripButton btnPatientSearch;
         private System.Windows.Forms.ToolStripButton saveToolStripButton;
         private System.Windows.Forms.ToolStripButton printToolStripButton;
         private System.Windows.Forms.ToolStripButton printPreviewToolStripButton;

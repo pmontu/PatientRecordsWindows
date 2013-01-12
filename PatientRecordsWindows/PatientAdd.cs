@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace PatientRecordsWindows
 {
-    public partial class Form1 : Form
+    public partial class PatientAdd : Form
     {
-        public Form1()
+        public PatientAdd()
         {
             InitializeComponent();
         }
@@ -23,21 +23,47 @@ namespace PatientRecordsWindows
         {
             //SQLiteConnection.CreateFile("MyDatabase.sqlite");
 
-            SQLiteConnection m_dbConnection;
+            /*SQLiteConnection m_dbConnection;
             m_dbConnection = new SQLiteConnection("Data Source=MyDatabase.sqlite;Version=3;");
-            m_dbConnection.Open();
+            m_dbConnection.Open();*/
 
             /*string sql = "CREATE TABLE patients (name TEXT, age INTEGER, gender TEXT)";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             command.ExecuteNonQuery();*/
 
-            string sql2 = "insert into patients (name, age, gender) values ($name, $age, $gender)";
+            /*string sql2 = "insert into patients (name, age, gender) values ($name, $age, $gender)";
             SQLiteCommand command2 = new SQLiteCommand(sql2, m_dbConnection);
             command2.Parameters.AddWithValue("$name", txtName.Text);
             command2.Parameters.AddWithValue("$age", txtAge.Text);
             string gender = rbM.Checked ? "M" : "F";
             command2.Parameters.AddWithValue("$gender", gender);
-            command2.ExecuteNonQuery();
+            command2.ExecuteNonQuery();*/
+
+            //validation
+            string errors = "";
+            string gender = rbM.Checked ? "M" : "F";
+            int age;
+            if (!Int32.TryParse(txtAge.Text, out age))
+            {
+                errors += "Age takes numeric only\n";
+            }
+            if (errors != "")
+            {
+                MessageBox.Show(errors);
+                return;
+            }
+
+            var sess = ((Container)this.ParentForm).sess;
+            var patient = new Domain.Patient
+            {
+                name = txtName.Text,
+                age = Convert.ToInt32(txtAge.Text),
+                gender = gender
+            };
+
+            // And save it to the database
+            sess.Save(patient);
+            sess.Flush();
 
         }
     }

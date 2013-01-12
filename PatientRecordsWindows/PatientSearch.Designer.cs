@@ -1,6 +1,6 @@
 ﻿namespace PatientRecordsWindows
 {
-    partial class Form2
+    partial class PatientSearch
     {
         /// <summary>
         /// Required designer variable.
