@@ -1,9 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientRecordsWindows", "PatientRecordsWindows.csproj", "{EB8203A7-D48E-4076-8F36-2BFDC1CFD017}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureNET", "..\CaptureNET\CaptureNET.csproj", "{9B7CAF6C-AFF0-4C01-80F7-D316808FDF74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureNET", "CaptureNET.csproj", "{9B7CAF6C-AFF0-4C01-80F7-D316808FDF74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DShowNET", "..\DShowNET\DShowNET.csproj", "{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}"
 EndProject
@@ -13,10 +10,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB8203A7-D48E-4076-8F36-2BFDC1CFD017}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB8203A7-D48E-4076-8F36-2BFDC1CFD017}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB8203A7-D48E-4076-8F36-2BFDC1CFD017}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB8203A7-D48E-4076-8F36-2BFDC1CFD017}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9B7CAF6C-AFF0-4C01-80F7-D316808FDF74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B7CAF6C-AFF0-4C01-80F7-D316808FDF74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B7CAF6C-AFF0-4C01-80F7-D316808FDF74}.Release|Any CPU.ActiveCfg = Release|Any CPU
