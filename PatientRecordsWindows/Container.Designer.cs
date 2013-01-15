@@ -45,6 +45,7 @@
             // 
             // toolStrip
             // 
+            this.toolStrip.AutoSize = false;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnPatientAdd,
             this.btnPatientSearch,
@@ -56,43 +57,50 @@
             this.helpToolStripButton});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(632, 25);
+            this.toolStrip.Size = new System.Drawing.Size(632, 50);
+            this.toolStrip.Stretch = true;
             this.toolStrip.TabIndex = 1;
             this.toolStrip.Text = "ToolStrip";
             // 
             // btnPatientAdd
             // 
+            this.btnPatientAdd.AutoSize = false;
             this.btnPatientAdd.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnPatientAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnPatientAdd.Image")));
+            this.btnPatientAdd.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnPatientAdd.ImageTransparentColor = System.Drawing.Color.Black;
             this.btnPatientAdd.Name = "btnPatientAdd";
-            this.btnPatientAdd.Size = new System.Drawing.Size(23, 22);
+            this.btnPatientAdd.Size = new System.Drawing.Size(50, 47);
             this.btnPatientAdd.Text = "New";
             this.btnPatientAdd.Click += new System.EventHandler(this.PatientAdd);
             // 
             // btnPatientSearch
             // 
+            this.btnPatientSearch.AutoSize = false;
             this.btnPatientSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnPatientSearch.Image = ((System.Drawing.Image)(resources.GetObject("btnPatientSearch.Image")));
+            this.btnPatientSearch.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.btnPatientSearch.ImageTransparentColor = System.Drawing.Color.Black;
             this.btnPatientSearch.Name = "btnPatientSearch";
-            this.btnPatientSearch.Size = new System.Drawing.Size(23, 22);
+            this.btnPatientSearch.Size = new System.Drawing.Size(50, 50);
             this.btnPatientSearch.Text = "Search";
             this.btnPatientSearch.Click += new System.EventHandler(this.PatientSearch);
             // 
             // saveToolStripButton
             // 
+            this.saveToolStripButton.AutoSize = false;
             this.saveToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.saveToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("saveToolStripButton.Image")));
+            this.saveToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.saveToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
             this.saveToolStripButton.Name = "saveToolStripButton";
-            this.saveToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveToolStripButton.Size = new System.Drawing.Size(50, 50);
             this.saveToolStripButton.Text = "Save";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
             // 
             // printToolStripButton
             // 
@@ -100,7 +108,7 @@
             this.printToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printToolStripButton.Image")));
             this.printToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
             this.printToolStripButton.Name = "printToolStripButton";
-            this.printToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.printToolStripButton.Size = new System.Drawing.Size(23, 47);
             this.printToolStripButton.Text = "Print";
             // 
             // printPreviewToolStripButton
@@ -109,13 +117,13 @@
             this.printPreviewToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("printPreviewToolStripButton.Image")));
             this.printPreviewToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
             this.printPreviewToolStripButton.Name = "printPreviewToolStripButton";
-            this.printPreviewToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.printPreviewToolStripButton.Size = new System.Drawing.Size(23, 47);
             this.printPreviewToolStripButton.Text = "Print Preview";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
             // 
             // helpToolStripButton
             // 
@@ -123,7 +131,7 @@
             this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
             this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Black;
             this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.helpToolStripButton.Size = new System.Drawing.Size(23, 47);
             this.helpToolStripButton.Text = "Help";
             this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
             // 
@@ -136,11 +144,11 @@
             this.IsMdiContainer = true;
             this.Name = "Container";
             this.Text = "Patient Records";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MDIParent1_Load);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
         #endregion
