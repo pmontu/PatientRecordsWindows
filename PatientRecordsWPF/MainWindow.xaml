@@ -9,23 +9,7 @@
                 <GradientStop Color="#FFCCCCCC" Offset="0"/>
                 <GradientStop Color="White" Offset="1"/>
             </LinearGradientBrush>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="15*" />
-            </Grid.ColumnDefinitions>
-
-            <Button Style="{StaticResource LinkButton}" x:Name="btnAdd" Click="btnAdd_Click" Content="new" >
-            </Button>
-            <Button Style="{StaticResource LinkButton}" x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Content="search">
-            </Button>  
-        </Grid>
+        </Grid.Background>        
         <Frame x:Name="frameContainer" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

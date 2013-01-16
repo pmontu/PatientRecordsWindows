@@ -20,9 +20,15 @@ namespace PatientRecordsWPF
     /// </summary>
     public partial class Search : Page
     {
-        public Search()
+        MainWindow parent;
+        public Search(MainWindow objMainWindow)
         {
             InitializeComponent();
+            parent = objMainWindow;
+        }
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            parent.ShowAdd();
         }
     }
 }

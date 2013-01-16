@@ -6,88 +6,89 @@
       mc:Ignorable="d" 
       d:DesignHeight="464.25" d:DesignWidth="583.75"
 	Title="Search">
-    <Grid >
+    
+    <Grid>
+            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Content="Patient Search" />
-        <Grid Grid.Row="1">
+        <Button Style="{StaticResource LinkButton}" x:Name="btnAdd" Click="btnAdd_Click" Content="new" Grid.Row="0" Grid.Column="0"/>
+        <Grid Margin="0" Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <!-- Header row -->
+                <RowDefinition Height="10" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+                <!-- One for each row of data -->
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
                 <ColumnDefinition Width="*" />
+                <!-- Document Name column -->
+                <ColumnDefinition Width="3*" />
+                <!-- Actions column -->
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Margin="0">
-                <Grid.RowDefinitions>
-                    <!-- Header row -->
-                    <RowDefinition Height="10" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <RowDefinition Height="25" />
-                    <!-- One for each row of data -->
-                </Grid.RowDefinitions>
+            <Label Content="ID" Grid.Row="1" Grid.Column="1" />
+            <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2" />
+            <Label Content="Name" Grid.Row="2" Grid.Column="1" />
+            <TextBox Grid.Row="2" Grid.Column="2" Margin="0,2" />
+            <Label Content="Sex" Grid.Row="3" Grid.Column="1" />
+            <ComboBox Grid.Row="3" Grid.Column="2" Margin="0,2" />
+            <Label Content="Age" Grid.Row="4" Grid.Column="1" />
+            <Grid  Grid.Row="4" Grid.Column="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".5*" />
                     <ColumnDefinition Width="*" />
-                    <!-- Document Name column -->
-                    <ColumnDefinition Width="3*" />
-                    <!-- Actions column -->
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Content="ID" Grid.Row="1" Grid.Column="1" />
-                <TextBox Grid.Row="1" Grid.Column="2" Margin="0,2" />
-                <Label Content="Name" Grid.Row="2" Grid.Column="1" />
-                <TextBox Grid.Row="2" Grid.Column="2" Margin="0,2" />
-                <Label Content="Sex" Grid.Row="3" Grid.Column="1" />
-                <ComboBox Grid.Row="3" Grid.Column="2" Margin="0,2" />
-                <Label Content="Age" Grid.Row="4" Grid.Column="1" />
-                <Grid  Grid.Row="4" Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Content="From"/>
-                    <TextBox Grid.Column="1"  Margin="0,2"/>
-                    <Label Content="To" Grid.Column="2"/>
-                    <TextBox Grid.Column="3"  Margin="0,2"/>
-                </Grid>
-                <Label Content="City" Grid.Row="5" Grid.Column="1" />
-                <TextBox Grid.Row="5" Grid.Column="2" Margin="0,2" />
-                <Label Content="State" Grid.Row="6" Grid.Column="1" />
-                <TextBox Grid.Row="6" Grid.Column="2" Margin="0,2" />
-                <Label Content="Refferd By" Grid.Row="7" Grid.Column="1" />
-                <TextBox Grid.Row="7" Grid.Column="2" Margin="0,2" />
-                <Label Content="Doctor" Grid.Row="8" Grid.Column="1" />
-                <TextBox Grid.Row="8" Grid.Column="2" Margin="0,2" />
-                <Label Content="Exam Date" Grid.Row="9" Grid.Column="1" />
-                <Grid  Grid.Row="9" Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="2*" />
-                    </Grid.ColumnDefinitions>
-                    <Label Content="From"/>
-                    <DatePicker  Grid.Column="1"  Margin="0,2"/>
-                    <Label Content="To" Grid.Column="2"/>
-                    <DatePicker  Grid.Column="3"  Margin="0,2"/>
-                </Grid>
-                <Label Content="Diagnosis" Grid.Row="10" Grid.Column="1" />
-                <TextBox Grid.Row="10" Grid.Column="2" Margin="0,2" />
-                <Button Grid.Row="11" Grid.Column="2" Content="Go"  />
+                <Label Content="From"/>
+                <TextBox Grid.Column="1"  Margin="0,2"/>
+                <Label Content="To" Grid.Column="2"/>
+                <TextBox Grid.Column="3"  Margin="0,2"/>
             </Grid>
-            <DataGrid Grid.Column="1"/>
+            <Label Content="City" Grid.Row="5" Grid.Column="1" />
+            <TextBox Grid.Row="5" Grid.Column="2" Margin="0,2" />
+            <Label Content="State" Grid.Row="6" Grid.Column="1" />
+            <TextBox Grid.Row="6" Grid.Column="2" Margin="0,2" />
+            <Label Content="Refferd By" Grid.Row="7" Grid.Column="1" />
+            <TextBox Grid.Row="7" Grid.Column="2" Margin="0,2" />
+            <Label Content="Doctor" Grid.Row="8" Grid.Column="1" />
+            <TextBox Grid.Row="8" Grid.Column="2" Margin="0,2" />
+            <Label Content="Exam Date" Grid.Row="9" Grid.Column="1" />
+            <Grid  Grid.Row="9" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Label Content="From"/>
+                <DatePicker  Grid.Column="1"  Margin="0,2"/>
+                <Label Content="To" Grid.Column="2"/>
+                <DatePicker  Grid.Column="3"  Margin="0,2"/>
+            </Grid>
+            <Label Content="Diagnosis" Grid.Row="10" Grid.Column="1" />
+            <TextBox Grid.Row="10" Grid.Column="2" Margin="0,2" />
+            <Button Grid.Row="11" Grid.Column="2" Content="Go"  />
         </Grid>
+        <ListBox Grid.Row="1" Grid.Column="1" Background="{x:Null}"/>
     </Grid>
+
 </Page>

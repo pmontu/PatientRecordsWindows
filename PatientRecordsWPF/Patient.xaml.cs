@@ -20,9 +20,11 @@ namespace PatientRecordsWPF
     /// </summary>
     public partial class Patient : Page
     {
-        public Patient()
+        MainWindow parent;
+        public Patient(MainWindow objMainWindow)
         {
             InitializeComponent();
+            parent = objMainWindow;
         }
 
         private void Page_Loaded_1(object sender, RoutedEventArgs e)
@@ -33,6 +35,11 @@ namespace PatientRecordsWPF
         private void btnPatientDetails_Click(object sender, RoutedEventArgs e)
         {
             framePatientContainer.Content = new Details();
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            parent.ShowSearch();
         }
     }
 }

@@ -27,17 +27,24 @@ namespace PatientRecordsWPF
 
         private void PageSwitcher_Activated(object sender, EventArgs e)
         {
-            frameContainer.Content = new Search();
+            ShowSearch();
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            frameContainer.Content = new Search();
+            ShowSearch();
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+
+        public void ShowAdd()
         {
-            frameContainer.Content = new Patient();
+            frameContainer.Content = new Patient(this);
+
+        }
+        public void ShowSearch()
+        {
+            frameContainer.Content = new Search(this);
+
         }
     }
 }
