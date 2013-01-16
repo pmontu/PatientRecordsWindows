@@ -26,7 +26,7 @@
                 </Grid.RowDefinitions>
                 <Button x:Name="btnPatientDetails" Content="Details" Click="btnPatientDetails_Click" />
                 <Button Content="New Visit" Grid.Row="1"/>
-                <ListView Grid.Row="2">
+                <ListView Grid.Row="2" Background="{x:Null}" >
                     <ListBoxItem Content="Visit 1"/>
                     <ListBoxItem Content="Visit 2"/>
                     <ListBoxItem Content="Visit 3"/>

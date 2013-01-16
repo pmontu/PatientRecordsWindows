@@ -17,7 +17,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid Background="#FFE5E5E5" Margin="0">
+            <Grid Margin="0">
                 <Grid.RowDefinitions>
                     <!-- Header row -->
                     <RowDefinition Height="10" />

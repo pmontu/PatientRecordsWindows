@@ -6,9 +6,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="Visit">
-        <TabControl  Margin="0" >
+        <TabControl  Margin="0" Background="{x:Null}" >
         <TabItem Header="Visit Details">
-            <Grid Background="#FFE5E5E5">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="25" />
@@ -28,10 +28,10 @@
             </Grid>
         </TabItem>
             <TabItem Header="Images">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid/>
             </TabItem>
             <TabItem Header="Videos" Height="50">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid/>
             </TabItem>
         </TabControl>
 </Page>

@@ -2,7 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Patient Records" Height="600" Width="1200" Activated="PageSwitcher_Activated">
+    
     <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFCCCCCC" Offset="0"/>
+                <GradientStop Color="White" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -11,11 +18,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="15*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnAdd" Click="btnAdd_Click" Content="New" >
+
+            <Button Style="{StaticResource LinkButton}" x:Name="btnAdd" Click="btnAdd_Click" Content="new" >
             </Button>
-            <Button  x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Content="Search">
+            <Button Style="{StaticResource LinkButton}" x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Content="search">
             </Button>  
         </Grid>
         <Frame x:Name="frameContainer" Grid.Row="1" NavigationUIVisibility="Hidden"/>
