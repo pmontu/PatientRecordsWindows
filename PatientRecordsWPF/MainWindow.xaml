@@ -3,26 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Patient Records" Height="600" Width="800" Activated="PageSwitcher_Activated">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Button  x:Name="btnSearch" Click="btnSearch_Click" Content="Search">
-            </Button>            
-            <Button x:Name="btnAdd" Grid.Row="1" Click="btnAdd_Click" Content="New" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnAdd" Click="btnAdd_Click" Content="New" >
             </Button>
-
+            <Button  x:Name="btnSearch" Grid.Column="1" Click="btnSearch_Click" Content="Search">
+            </Button>  
         </Grid>
-        <Frame x:Name="frameContainer" Grid.Column="1" />
+        <Frame x:Name="frameContainer" Grid.Row="1" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

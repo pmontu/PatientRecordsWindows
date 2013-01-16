@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace PatientRecordsWPF
 {
     /// <summary>
-    /// Interaction logic for Patient.xaml
+    /// Interaction logic for Visit.xaml
     /// </summary>
-    public partial class Patient : Page
+    public partial class Visit : Page
     {
-        public Patient()
+        public Visit()
         {
             InitializeComponent();
-        }
-
-        private void Page_Loaded_1(object sender, RoutedEventArgs e)
-        {
-            framePatientContainer.Content = new Visit();
         }
     }
 }

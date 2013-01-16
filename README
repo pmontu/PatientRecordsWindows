@@ -1,0 +1,8 @@
+Patient Records System for Doctors
+==================================
+Offline Windows App
+Required .Net 4
+
+Targetted Features
+* Save/Retrieve/Search/Analyse Patient Information
+* Record Conditions, Diagnosis, Treatment and Video as Visits
