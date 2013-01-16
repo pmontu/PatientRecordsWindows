@@ -53,23 +53,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Add.xaml.cs">
-      <DependentUpon>Add.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Details.xaml.cs">
-      <DependentUpon>Details.xaml</DependentUpon>
+    <Compile Include="Patient.xaml.cs">
+      <DependentUpon>Patient.xaml</DependentUpon>
     </Compile>
     <Compile Include="Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
-    <Page Include="Add.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Details.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,6 +71,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Patient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

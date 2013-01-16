@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace PatientRecordsWPF
 {
     /// <summary>
-    /// Interaction logic for Add.xaml
+    /// Interaction logic for Patient.xaml
     /// </summary>
-    public partial class Add : Page
+    public partial class Patient : Page
     {
-        public Add()
+        public Patient()
         {
             InitializeComponent();
         }

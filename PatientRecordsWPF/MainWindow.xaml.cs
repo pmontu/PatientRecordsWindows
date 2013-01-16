@@ -37,7 +37,7 @@ namespace PatientRecordsWPF
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            frameContainer.Content = new Add();
+            frameContainer.Content = new Patient();
         }
     }
 }
