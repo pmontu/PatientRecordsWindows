@@ -24,7 +24,7 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Details" />
+                <Button x:Name="btnPatientDetails" Content="Details" Click="btnPatientDetails_Click" />
                 <Button Content="New Visit" Grid.Row="1"/>
                 <ListView Grid.Row="2">
                     <ListBoxItem Content="Visit 1"/>

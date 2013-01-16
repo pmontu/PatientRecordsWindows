@@ -29,5 +29,10 @@ namespace PatientRecordsWPF
         {
             framePatientContainer.Content = new Visit();
         }
+
+        private void btnPatientDetails_Click(object sender, RoutedEventArgs e)
+        {
+            framePatientContainer.Content = new Details();
+        }
     }
 }
