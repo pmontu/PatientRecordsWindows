@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   assembly="PatientRecordsWPF"
+                   namespace="PatientRecordsWPF.Domain">
+
+  <class name="Patient">
+    <id name="id">
+      <generator class="guid" />
+    </id>
+    <property name="name" />
+    <property name="fatherorspouce" />
+    <property name="sex" />
+    <property name="dateofbirth" />
+    <property name="address_number" />
+    <property name="address_street" />
+    <property name="address_area" />
+    <property name="city" />
+    <property name="state" />
+    <property name="pin" />
+    <property name="phone" />
+    <property name="email" />
+    <property name="diabetes" />
+    <property name="bloodpressure" />
+    <property name="heartailments" />
+    <property name="tb" />
+    <property name="aids" />
+    <property name="allergy" />
+    <property name="other" />
+  </class>
+
+</hibernate-mapping>

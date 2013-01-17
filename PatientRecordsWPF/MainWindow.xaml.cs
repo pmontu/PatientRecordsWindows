@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +31,16 @@ namespace PatientRecordsWPF
         private void PageSwitcher_Activated(object sender, EventArgs e)
         {
             ShowSearch();
+            
+            /*var sess = DataAccess.sess;
+
+            var patient = new Domain.Patient
+            {
+                name = "test2"
+            };
+
+            sess.Save(patient);
+            sess.Flush();*/
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

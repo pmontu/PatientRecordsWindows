@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Tool.hbm2ddl;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +16,10 @@ namespace PatientRecordsWPF
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            /* set true to create db initially */
+            DataAccess.init(false);
+        }
     }
 }
