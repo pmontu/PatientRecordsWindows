@@ -27,14 +27,15 @@ namespace PatientRecordsWPF2
 
         private void btnViewPatientDetails_Click(object sender, RoutedEventArgs e)
         {
-
+            var pv = new PatientVisits();
+            pv.Owner = this;
+            pv.ShowDialog();
         }
         private void btnAddNewPatient_Click(object sender, RoutedEventArgs e)
         {
             var pd = new PatientDetails();
             pd.Owner = this;
             pd.ShowDialog();
-
         }
     }
 }

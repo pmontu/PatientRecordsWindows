@@ -15,18 +15,13 @@ using System.Windows.Shapes;
 namespace PatientRecordsWPF2
 {
     /// <summary>
-    /// Interaction logic for PatientDetails.xaml
+    /// Interaction logic for PatientVisits.xaml
     /// </summary>
-    public partial class PatientDetails : Window
+    public partial class PatientVisits : Window
     {
-        public PatientDetails()
+        public PatientVisits()
         {
             InitializeComponent();
-        }
-
-        private void btnCreateNewPatient_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }
