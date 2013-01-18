@@ -5,8 +5,8 @@
                    namespace="PatientRecordsWPF.Domain">
 
   <class name="Patient">
-    <id name="id">
-      <generator class="guid" />
+    <id name="id" type="int" >
+      <generator class="native" />
     </id>
     <property name="name" />
     <property name="fatherorspouce" />

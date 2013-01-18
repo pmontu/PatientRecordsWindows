@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DShowNET", "..\DShowNET\DSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientRecordsWPF", "..\PatientRecordsWPF\PatientRecordsWPF.csproj", "{261DE580-7C6B-4DD4-A5DC-109B32E47EC1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernateSQLiteInit", "..\FluentNHibernateSQLiteInit\FluentNHibernateSQLiteInit.csproj", "{0E6038BB-6601-465F-9CB3-8227D4C53634}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{261DE580-7C6B-4DD4-A5DC-109B32E47EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{261DE580-7C6B-4DD4-A5DC-109B32E47EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{261DE580-7C6B-4DD4-A5DC-109B32E47EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E6038BB-6601-465F-9CB3-8227D4C53634}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6038BB-6601-465F-9CB3-8227D4C53634}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6038BB-6601-465F-9CB3-8227D4C53634}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6038BB-6601-465F-9CB3-8227D4C53634}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

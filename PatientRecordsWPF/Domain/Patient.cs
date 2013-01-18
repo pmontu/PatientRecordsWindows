@@ -8,7 +8,7 @@ namespace PatientRecordsWPF.Domain
 {
     public class Patient
     {
-        public virtual Guid id { get; set; }
+        public virtual int id { get; set; }
         public virtual string name { get; set; }
         public virtual string fatherorspouce { get; set; }
         public virtual string sex { get; set; }
