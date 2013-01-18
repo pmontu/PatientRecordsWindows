@@ -4,7 +4,7 @@
         Title="Patient Records" Height="350" Width="525">
     <Grid Margin="10,0,10,10">
         <Grid.Background>
-            <ImageBrush/>
+            <ImageBrush />
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230" />
