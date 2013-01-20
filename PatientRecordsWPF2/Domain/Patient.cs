@@ -25,6 +25,7 @@ namespace PatientRecordsWPF2.Domain
         public virtual string Pin { get; set; }
         public virtual string Phone { get; set; }
         public virtual string Email { get; set; }
+        public virtual IList<Visit> Visits { get; set; }
     }
 
     public class PatientMap : ClassMap<Patient>
@@ -42,6 +43,9 @@ namespace PatientRecordsWPF2.Domain
             Map(x => x.Pin).Nullable();
             Map(x => x.Phone).Nullable();
             Map(x => x.Email).Nullable();
+            HasMany(x => x.Visits)
+             .Inverse()
+             .Cascade.All();
             Table("Patient");
         }
     }

@@ -19,9 +19,21 @@ namespace PatientRecordsWPF2
     /// </summary>
     public partial class PatientVisits : Window
     {
+        private Domain.Patient Patient;
+
         public PatientVisits()
         {
             InitializeComponent();
         }
+        public PatientVisits(Domain.Patient Patient) : this()
+        {
+            this.Patient = Patient;
+        }
+
+        private void wVisit_Activated(object sender, EventArgs e)
+        {
+            lblTitle.Content = Patient.Name;
+        }
+
     }
 }

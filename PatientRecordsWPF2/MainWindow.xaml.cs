@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SQLite;
 
 namespace PatientRecordsWPF2
 {
@@ -27,7 +29,7 @@ namespace PatientRecordsWPF2
 
         private void btnViewPatientDetails_Click(object sender, RoutedEventArgs e)
         {
-            var pv = new PatientVisits();
+            var pv = new PatientVisits((Domain.Patient)lbPatients.SelectedItem);
             pv.Owner = this;
             pv.ShowDialog();
         }
@@ -36,6 +38,30 @@ namespace PatientRecordsWPF2
             var pd = new PatientDetails();
             pd.Owner = this;
             pd.ShowDialog();
+        }
+
+        private void wSearch_Activated(object sender, EventArgs e)
+        {
+            var sessionFactory = ((App)Application.Current).sessionFactory;
+
+            using (var session = sessionFactory.OpenSession())
+            {
+                var patients = session.CreateQuery("FROM Patient").List<Domain.Patient>();
+
+                lbPatients.ItemsSource = patients;
+            }
+        }
+
+        private void lbPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(lbPatients.SelectedIndex==-1)
+            {
+                btnViewPatientDetails.IsEnabled = false;
+            }
+            if (lbPatients.SelectedIndex != -1)
+            {
+                btnViewPatientDetails.IsEnabled = true;
+            }
         }
     }
 }
