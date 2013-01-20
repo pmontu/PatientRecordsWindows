@@ -63,30 +63,30 @@
                         </Label>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox Margin="12,2" Height="30" />
-                        <TextBox Margin="12,2" Height="30" />
-                        <TextBox Margin="12,2" Height="30" />
-                        <DatePicker Margin="12,2" Height="30"/>
+                        <TextBox x:Name="txtReferredBy" Margin="12,2" Height="30" />
+                        <TextBox x:Name="txtDoctors_Email" Margin="12,2" Height="30" />
+                        <TextBox x:Name="txtDoctor" Margin="12,2" Height="30" />
+                        <DatePicker x:Name="dtDate_of_Examination" Margin="12,2" Height="30"/>
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Height="30" Margin="0,0,2,0"  />
-                            <Button Grid.Column="1">Add</Button>
+                            <TextBox x:Name="txtSymptom" Height="30" Margin="0,0,2,0"  />
+                            <Button x:Name="btnAddSymptom" Grid.Column="1">Add</Button>
                         </Grid>
-                        <TextBox Margin="12,2" Height="60" TextWrapping="Wrap" AcceptsReturn="True" />
-                        <TextBox Margin="12,2" Height="30" />
-                        <TextBox Margin="12,2" Height="30" />
+                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60"/>
+                        <TextBox x:Name="txtDiagnosis" Margin="12,2" Height="30" />
+                        <TextBox x:Name="txtTreatment" Margin="12,2" Height="30" />
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Height="30" Margin="0,0,2,0"  />
-                            <Button Grid.Column="1">Add</Button>
+                            <TextBox x:Name="txtTag" Height="30" Margin="0,0,2,0"  />
+                            <Button x:Name="btnAddTag" Grid.Column="1">Add</Button>
                         </Grid>
-                        <TextBox Margin="12,2" Height="60" TextWrapping="Wrap" AcceptsReturn="True" />
+                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -94,8 +94,8 @@
         </TabControl>
 
         <!-- View report button -->
-        <Button Grid.Column="1" Grid.Row="3" Margin="0,10,0,0" Width="125"
-Height="25" HorizontalAlignment="Right">Create</Button>
+        <Button x:Name="btnCreateEditUpdateVisit" Grid.Column="1" Grid.Row="3" Margin="0,10,0,0" Width="125"
+Height="25" HorizontalAlignment="Right" Click="btnCreateEditUpdateVisit_Click">Create</Button>
         
         <Grid Grid.Column="0" Grid.Row="1" Margin="0,0,10,0">
             <Grid.RowDefinitions>
@@ -110,21 +110,16 @@ Height="25" HorizontalAlignment="Right">Create</Button>
                 <Border Height="35" Padding="5" Background="#4E87D4">
                     <Label VerticalAlignment="Center" Foreground="White">Visits</Label>
                 </Border>
-                <Button Grid.Column="1"  VerticalAlignment="Center" Grid.Row="1" Style="{StaticResource LinkButton}" HorizontalAlignment="Right">+ add new</Button>
+                <Button x:Name="btnAddNewVisit" Grid.Column="1"  VerticalAlignment="Center" Grid.Row="1" Style="{StaticResource LinkButton}" HorizontalAlignment="Right" Click="btnAddNewVisit_Click">+ add new</Button>
             </Grid>
-            <ListBox Name="peopleListBox" Grid.Row="1">
-                <ListBoxItem>1 - Jan - 2013</ListBoxItem>
-                <ListBoxItem>1 - Dec - 2012</ListBoxItem>
-                <ListBoxItem>13 - Nov - 2012</ListBoxItem>
-                <ListBoxItem>23 - Feb - 2013</ListBoxItem>
-                <ListBoxItem>3 - Dec - 2012</ListBoxItem>
-                <ListBoxItem>13 - Mar - 2012</ListBoxItem>
-                <ListBoxItem>14 - Jan - 2013</ListBoxItem>
-                <ListBoxItem>6 - Dec - 2012</ListBoxItem>
-                <ListBoxItem>13 - June - 2012</ListBoxItem>
-                <ListBoxItem>11 - Jan - 2013</ListBoxItem>
-                <ListBoxItem>24 - Jul - 2012</ListBoxItem>
-                <ListBoxItem>13 - Nov - 2012</ListBoxItem>
+            <ListBox x:Name="lbxVisits" Grid.Row="1" SelectionChanged="lbxVisits_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Date_of_Examination}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
         

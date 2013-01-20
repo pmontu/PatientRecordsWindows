@@ -29,7 +29,7 @@ namespace PatientRecordsWPF2
 
         private void btnViewPatientDetails_Click(object sender, RoutedEventArgs e)
         {
-            var pv = new PatientVisits((Domain.Patient)lbPatients.SelectedItem);
+            var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
             pv.Owner = this;
             pv.ShowDialog();
         }
@@ -46,19 +46,19 @@ namespace PatientRecordsWPF2
 
             using (var session = sessionFactory.OpenSession())
             {
-                var patients = session.CreateQuery("FROM Patient").List<Domain.Patient>();
+                var patients = session.CreateCriteria<Domain.Patient>().List<Domain.Patient>();
 
-                lbPatients.ItemsSource = patients;
+                lbxPatients.ItemsSource = patients;
             }
         }
 
         private void lbPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(lbPatients.SelectedIndex==-1)
+            if(lbxPatients.SelectedIndex==-1)
             {
                 btnViewPatientDetails.IsEnabled = false;
             }
-            if (lbPatients.SelectedIndex != -1)
+            if (lbxPatients.SelectedIndex != -1)
             {
                 btnViewPatientDetails.IsEnabled = true;
             }

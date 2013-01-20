@@ -37,7 +37,7 @@
         <Border Grid.Column="1" Grid.Row="2" Height="35" Padding="5" Background="#4E87D4">
             <Label VerticalAlignment="Center" Foreground="White">Names</Label>
         </Border>
-        <ListBox Name="lbPatients" Grid.Column="1" Grid.Row="3" SelectionChanged="lbPatients_SelectionChanged">
+        <ListBox x:Name="lbxPatients" Grid.Column="1" Grid.Row="3" SelectionChanged="lbPatients_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
