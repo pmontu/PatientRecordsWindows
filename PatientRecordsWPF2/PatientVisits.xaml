@@ -15,10 +15,9 @@
             <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label x:Name="lblTitle" FontFamily="Trebuchet MS" 
-        FontWeight="Bold" FontSize="18" Foreground="#0066cc" Grid.ColumnSpan="2" Margin="60,31,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Width="383">
+        <Button x:Name="lblTitle" Style="{StaticResource LinkTitleButton}" Grid.ColumnSpan="2" Margin="60,31,0,0" Height="31" VerticalAlignment="Top" HorizontalAlignment="Left" Click="lblTitle_Click">
             Manojkumar Purushothaman
-        </Label>
+        </Button>
 
         <!--<Border Grid.Column="1" Grid.Row="1" Height="35" Padding="5" Background="#4E87D4">
             <Label VerticalAlignment="Center" Foreground="White">Details</Label>
@@ -65,8 +64,8 @@
                     <StackPanel Grid.Column="1">
                         <TextBox x:Name="txtReferredBy" Margin="12,2" Height="30" />
                         <TextBox x:Name="txtDoctors_Email" Margin="12,2" Height="30" />
-                        <TextBox x:Name="txtDoctor" Margin="12,2" Height="30" />
-                        <DatePicker x:Name="dtDate_of_Examination" Margin="12,2" Height="30"/>
+                        <TextBox x:Name="txtDoctor" Margin="12,2" Height="30" TextChanged="txtDoctor_TextChanged" />
+                        <DatePicker x:Name="dtDate_of_Examination" Margin="12,2" Height="30" SelectedDateChanged="dtDate_of_Examination_SelectedDateChanged"/>
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />

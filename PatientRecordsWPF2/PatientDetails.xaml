@@ -15,7 +15,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="1" FontFamily="Trebuchet MS" 
+        <Label x:Name="lblTitle" Grid.Column="1" FontFamily="Trebuchet MS" 
         FontWeight="Bold" FontSize="18" Foreground="#0066cc" VerticalAlignment="Center">
             Create New Patient
         </Label>

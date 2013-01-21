@@ -16,6 +16,20 @@ namespace PatientRecordsWPF2
 {
     /// <summary>
     /// Interaction logic for PatientVisits.xaml
+    /// 
+    /// opetations - 
+    /// 1. create visit 
+    ///     1. if no visits allreay present for patient
+    ///         1. create visit
+    ///             1. validate
+    ///     2. if add new visit has been clicked if visits allready present for patient
+    ///         1. jump to another visit
+    ///         2. create visit
+    ///             1. validate
+    /// 2. populate latest visits if visits allready present for patient
+    ///     1. edit and update visit
+    ///         1.validate
+    ///     2. jump to add new visit
     /// </summary>
     public partial class PatientVisits : Window
     {
@@ -69,6 +83,7 @@ namespace PatientRecordsWPF2
             btnCreateEditUpdateVisit.Content = "Update";
         }
 
+        /* FRESH */
         private void CreateNewVisit()
         {
             /* HIDING add new visit button */
@@ -100,29 +115,30 @@ namespace PatientRecordsWPF2
             Start();
         }
 
+        /* SAVE OF UPDATE */
         private void btnCreateEditUpdateVisit_Click(object sender, RoutedEventArgs e)
         {
             Domain.Visit Visit;
             if (mode == Mode.create)
             {
                 Visit = new Domain.Visit();
-                Visit.Patient = Patient;                
-
+                Visit.Patient = Patient;
             }
             else
             {
                 Visit = SelectedVisit;
             }
+
             // VALIDATION
             bool isError = false;
             if (String.IsNullOrEmpty(txtDoctor.Text))
             {
-                //txtName.BorderBrush = new BrushConverter().ConvertFromString("Red") as Brush;
+                txtDoctor.BorderBrush = new BrushConverter().ConvertFromString("Red") as Brush;
                 isError = true;
             }
             if (!dtDate_of_Examination.SelectedDate.HasValue)
             {
-                //borderCbxSex.SetValue(Border.BorderBrushProperty, Brushes.Red);
+                dtDate_of_Examination.SetValue(Border.BorderBrushProperty, Brushes.Red);
                 isError = true;
             }
             if (isError)
@@ -188,6 +204,25 @@ namespace PatientRecordsWPF2
         {
             lbxVisits.SelectedIndex = -1;
             CreateNewVisit();
+        }
+
+        /* OPEN DETAILS OF A PATIENT */
+        private void lblTitle_Click(object sender, RoutedEventArgs e)
+        {
+            var pd = new PatientDetails(Patient);
+            pd.Owner = this;
+            pd.ShowDialog();
+        }
+
+        /* VALIDATION COLOR CHANGES BACK TO NORMAL */
+        private void txtDoctor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtDoctor.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
+        }
+
+        private void dtDate_of_Examination_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dtDate_of_Examination.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
         }
 
     }

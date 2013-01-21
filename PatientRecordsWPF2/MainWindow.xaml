@@ -33,7 +33,7 @@
             <Button x:Name="btnAddNewPatient" Grid.Row="1" Style="{StaticResource LinkButton}" Click="btnAddNewPatient_Click" VerticalAlignment="Top" Margin="10,0,0,0">add new</Button>
         </Grid>
         
-        <TextBox Grid.Column="1" Grid.Row="1" Height="24"/>
+        <TextBox x:Name="txtSearchFilter" Grid.Column="1" Grid.Row="1" Height="24" TextChanged="txtSearchFilter_TextChanged" ToolTip="Search Filter"/>
         <Border Grid.Column="1" Grid.Row="2" Height="35" Padding="5" Background="#4E87D4">
             <Label VerticalAlignment="Center" Foreground="White">Names</Label>
         </Border>

@@ -27,12 +27,15 @@ namespace PatientRecordsWPF2
             InitializeComponent();
         }
 
+        /* VIEW PATIENT VISITS */
         private void btnViewPatientDetails_Click(object sender, RoutedEventArgs e)
         {
             var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
             pv.Owner = this;
             pv.ShowDialog();
         }
+
+        /* ADD NEW PATIENT */
         private void btnAddNewPatient_Click(object sender, RoutedEventArgs e)
         {
             var pd = new PatientDetails();
@@ -40,6 +43,7 @@ namespace PatientRecordsWPF2
             pd.ShowDialog();
         }
 
+        /* PAGE INIT */
         private void wSearch_Activated(object sender, EventArgs e)
         {
             var sessionFactory = ((App)Application.Current).sessionFactory;
@@ -50,8 +54,12 @@ namespace PatientRecordsWPF2
 
                 lbxPatients.ItemsSource = patients;
             }
+
+            /* keyboard focus on search filter textbox */
+            Keyboard.Focus(txtSearchFilter);    
         }
 
+        /* ENABLE VIEW BUTTON only when a patient from list is selected */
         private void lbPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(lbxPatients.SelectedIndex==-1)
@@ -62,6 +70,19 @@ namespace PatientRecordsWPF2
             {
                 btnViewPatientDetails.IsEnabled = true;
             }
+        }
+
+        /* SEARCH FILTER */
+        private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            lbxPatients.Items.Filter = a =>
+            {
+                if (((Domain.Patient)a).Name.ToString().ToLower().Contains(txtSearchFilter.Text.ToLower()))
+                {
+                    return true;
+                }
+                return false;
+            };
         }
     }
 }

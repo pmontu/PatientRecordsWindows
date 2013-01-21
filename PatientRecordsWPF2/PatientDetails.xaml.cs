@@ -19,9 +19,15 @@ namespace PatientRecordsWPF2
     /// </summary>
     public partial class PatientDetails : Window
     {
+        private Domain.Patient Patient;
         public PatientDetails()
         {
             InitializeComponent();
+        }
+        public PatientDetails(Domain.Patient Patient)
+            : this()
+        {
+            this.Patient = Patient;
         }
 
         private void btnCreateNewPatient_Click(object sender, RoutedEventArgs e)
@@ -45,23 +51,22 @@ namespace PatientRecordsWPF2
             }
 
             // ENCAPSULATION
-            var patient = new Domain.Patient();
-            patient.Name = txtName.Text;
-            patient.Phone = txtPhone.Text;
-            patient.Pin = txtPin.Text;
+            Patient.Name = txtName.Text;
+            Patient.Phone = txtPhone.Text;
+            Patient.Pin = txtPin.Text;
             if (cbxSex.SelectedIndex != -1)
             {
-                patient.Sex = (Domain.Sex)Enum.Parse(typeof(Domain.Sex), cbxSex.SelectedItem.ToString());
+                Patient.Sex = (Domain.Sex)Enum.Parse(typeof(Domain.Sex), cbxSex.SelectedItem.ToString());
             }
-            patient.State = txtState.Text;
-            patient.Address = txtAddress.Text;
-            patient.City = txtCity.Text;
+            Patient.State = txtState.Text;
+            Patient.Address = txtAddress.Text;
+            Patient.City = txtCity.Text;
             if (dtDate_of_Birth.SelectedDate.HasValue)
             {
-                patient.Date_of_Birth = dtDate_of_Birth.SelectedDate.Value;
+                Patient.Date_of_Birth = dtDate_of_Birth.SelectedDate.Value;
             }
-            patient.Email = txtEmail.Text;
-            patient.Father_or_Spouce = txtFather_or_spouce.Text;
+            Patient.Email = txtEmail.Text;
+            Patient.Father_or_Spouce = txtFather_or_spouce.Text;
 
             // DB
             var sessionFactory = ((App)Application.Current).sessionFactory; 
@@ -70,7 +75,7 @@ namespace PatientRecordsWPF2
             {
                 using (var transaction = session.BeginTransaction())
                 {
-                    session.SaveOrUpdate(patient);
+                    session.SaveOrUpdate(Patient);
                     transaction.Commit();
                 }
             }
@@ -81,6 +86,28 @@ namespace PatientRecordsWPF2
         private void wDetails_Activated(object sender, EventArgs e)
         {
             cbxSex.ItemsSource = Enum.GetValues(typeof(Domain.Sex));
+            if (Patient != null)
+            {
+                lblTitle.Content = "Patient Details " + Patient.Id;
+                btnCreateNewPatient.Content = "Update";
+
+                txtName.Text = Patient.Name;
+                txtPhone.Text = Patient.Phone;
+                txtPin.Text = Patient.Pin;
+                cbxSex.SelectedIndex = cbxSex.Items.IndexOf(Patient.Sex);
+                txtState.Text = Patient.State;
+                txtAddress.Text = Patient.Address;
+                txtCity.Text = Patient.City;
+                dtDate_of_Birth.Text = Patient.Date_of_Birth.ToString();
+                txtEmail.Text = Patient.Email;
+                txtFather_or_spouce.Text = Patient.Father_or_Spouce;
+            }
+            else
+            {
+                Patient = new Domain.Patient();
+                lblTitle.Content = "Create New Patient";
+                btnCreateNewPatient.Content = "Create";
+            }
         }
 
         private void txtName_TextChanged(object sender, TextChangedEventArgs e)
