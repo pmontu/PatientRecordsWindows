@@ -191,6 +191,49 @@ namespace PatientRecordsWPF2
                 }
             }
 
+            List<Domain.Symptom> toberemovedSymptoms = new List<Domain.Symptom>();
+            foreach (Domain.Symptom s in Visit.Symptoms)
+            {
+                bool isPresent = false;
+                foreach (Domain.Symptom sym in TempVisitSymptoms)
+                {
+                    if (s.Name == sym.Name)
+                    {
+                        isPresent = true;
+                    }
+                }
+                if (!isPresent)
+                {
+                    toberemovedSymptoms.Add(s);
+                }
+            }
+            foreach (Domain.Symptom s in toberemovedSymptoms)
+            {
+                Visit.Symptoms.Remove(s);
+            }
+
+            List<Domain.Tag> toberemovedTags = new List<Domain.Tag>();
+            foreach (Domain.Tag t in Visit.Tags)
+            {
+                bool isPresent = false;
+                foreach (Domain.Tag tag in TempVisitTags)
+                {
+                    if (t.Name == tag.Name)
+                    {
+                        isPresent = true;
+                    }
+                }
+                if (!isPresent)
+                {
+                    toberemovedTags.Add(t);
+                }
+            }
+            foreach (Domain.Tag t in toberemovedTags)
+            {
+                Visit.Tags.Remove(t);
+            }
+
+
             // DB
             var session = ((App)Application.Current).session;
 
@@ -291,6 +334,13 @@ namespace PatientRecordsWPF2
                 lbxTags.ItemsSource = TempVisitTags;
                 txtTag.Text = "";
             }
+        }
+
+        private void btnRemoveSymptom_Click(object sender, RoutedEventArgs e)
+        {
+            TempVisitSymptoms.Remove(((Domain.Symptom)((Button)sender).DataContext));
+            lbxSymptoms.ItemsSource = null;
+            lbxSymptoms.ItemsSource = TempVisitSymptoms;
         }
 
     }

@@ -71,15 +71,31 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtSymptom" Height="30" Margin="0,0,2,0"  />
-                            <Button x:Name="btnAddSymptom" Grid.Column="1" Click="btnAddSymptom_Click">Add</Button>
+                            <TextBox x:Name="txtSymptom" Height="30" Margin="0,0,2,0" />
+                            <Button x:Name="btnAddSymptom" Grid.Column="1" Click="btnAddSymptom_Click">Add
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=txtSymptom}" Value="">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
                         <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding Name}" />
-                                    </StackPanel>
+                                        <Button x:Name="btnRemoveSymptom" Grid.Column="1" Style="{StaticResource LinkButton}" HorizontalAlignment="Right" Click="btnRemoveSymptom_Click" >x</Button>
+                                    </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -91,7 +107,18 @@
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="txtTag" Height="30" Margin="0,0,2,0"  />
-                            <Button x:Name="btnAddTag" Grid.Column="1" Click="btnAddTag_Click">Add</Button>
+                            <Button x:Name="btnAddTag" Grid.Column="1" Click="btnAddTag_Click">Add
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="IsEnabled" Value="True" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Text, ElementName=txtTag}" Value="">
+                                                <Setter Property="IsEnabled" Value="False" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
                         <ListBox x:Name="lbxTags" Margin="12,2" Height="60">
                             <ListBox.ItemTemplate>
