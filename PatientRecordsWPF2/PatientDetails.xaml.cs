@@ -35,7 +35,7 @@ namespace PatientRecordsWPF2
 
             // VALIDATION
             bool isError = false;
-            if (String.IsNullOrEmpty(this.txtName.Text)) 
+            if (String.IsNullOrEmpty(this.txtName.Text))
             {
                 txtName.BorderBrush = new BrushConverter().ConvertFromString("Red") as Brush;
                 isError = true;
@@ -69,15 +69,12 @@ namespace PatientRecordsWPF2
             Patient.Father_or_Spouce = txtFather_or_spouce.Text;
 
             // DB
-            var sessionFactory = ((App)Application.Current).sessionFactory; 
+            var session = ((App)Application.Current).session;
 
-            using (var session = sessionFactory.OpenSession())
+            using (var transaction = session.BeginTransaction())
             {
-                using (var transaction = session.BeginTransaction())
-                {
-                    session.SaveOrUpdate(Patient);
-                    transaction.Commit();
-                }
+                session.SaveOrUpdate(Patient);
+                transaction.Commit();
             }
 
             this.Close();

@@ -72,9 +72,17 @@
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="txtSymptom" Height="30" Margin="0,0,2,0"  />
-                            <Button x:Name="btnAddSymptom" Grid.Column="1">Add</Button>
+                            <Button x:Name="btnAddSymptom" Grid.Column="1" Click="btnAddSymptom_Click">Add</Button>
                         </Grid>
-                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60"/>
+                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <TextBox x:Name="txtDiagnosis" Margin="12,2" Height="30" />
                         <TextBox x:Name="txtTreatment" Margin="12,2" Height="30" />
                         <Grid Margin="12,2">
@@ -83,9 +91,17 @@
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="txtTag" Height="30" Margin="0,0,2,0"  />
-                            <Button x:Name="btnAddTag" Grid.Column="1">Add</Button>
+                            <Button x:Name="btnAddTag" Grid.Column="1" Click="btnAddTag_Click">Add</Button>
                         </Grid>
-                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60"/>
+                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </Grid>
             </TabItem>

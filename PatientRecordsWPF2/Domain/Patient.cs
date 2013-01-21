@@ -26,6 +26,12 @@ namespace PatientRecordsWPF2.Domain
         public virtual string Phone { get; set; }
         public virtual string Email { get; set; }
         public virtual IList<Visit> Visits { get; set; }
+
+        public virtual void AddVisit(Visit visit)
+        {
+            visit.Patient = this;
+            Visits.Add(visit);
+        }
     }
 
     public class PatientMap : ClassMap<Patient>
@@ -46,7 +52,6 @@ namespace PatientRecordsWPF2.Domain
             HasMany(x => x.Visits)
              .Inverse()
              .Cascade.All();
-            Table("Patient");
         }
     }
 }

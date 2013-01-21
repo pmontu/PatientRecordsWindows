@@ -46,14 +46,11 @@ namespace PatientRecordsWPF2
         /* PAGE INIT */
         private void wSearch_Activated(object sender, EventArgs e)
         {
-            var sessionFactory = ((App)Application.Current).sessionFactory;
+            var session = ((App)Application.Current).session;
 
-            using (var session = sessionFactory.OpenSession())
-            {
-                var patients = session.CreateCriteria<Domain.Patient>().List<Domain.Patient>();
+            var patients = session.CreateCriteria<Domain.Patient>().List<Domain.Patient>();
 
-                lbxPatients.ItemsSource = patients;
-            }
+            lbxPatients.ItemsSource = patients;
 
             /* keyboard focus on search filter textbox */
             Keyboard.Focus(txtSearchFilter);    

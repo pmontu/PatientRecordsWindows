@@ -37,28 +37,22 @@ namespace PatientRecordsWPF2.Domain
             Map(x => x.Doctors_Email).Nullable();
             Map(x => x.Doctor).Not.Nullable();
             Map(x => x.Date_of_Examination).Not.Nullable();
-            HasManyToMany(x => x.Symptoms)
-             .Cascade.All()
-             .Table("VisitSymptom");
+            HasMany(x => x.Symptoms)
+             .Inverse()
+             .Cascade.All();
             Map(x => x.Diagnosis).Nullable();
             Map(x => x.Treatment).Nullable();
-            HasManyToMany(x => x.Tags)
-             .Cascade.All()
-             .Table("VisitTag");
-            Table("Visit");
+            HasMany(x => x.Tags)
+             .Inverse()
+             .Cascade.All();
         }
     }
 
     public class Symptom
     {
         public virtual int Id { get; set; }
-        public virtual IList<Visit> VisitsIn { get; set; }
+        public virtual Visit Visit { get; set; }
         public virtual string Name { get; set; }
-
-        public Symptom()
-        {
-            VisitsIn = new List<Visit>();
-        }
     }
     public class SymptomMap : ClassMap<Symptom>
     {
@@ -66,22 +60,15 @@ namespace PatientRecordsWPF2.Domain
         {
             Id(x => x.Id);
             Map(x => x.Name).Not.Nullable();
-            HasManyToMany(x => x.VisitsIn)
-             .Cascade.All()
-             .Table("VisitSymptom");
+            References(x => x.Visit);
+
         }
     }
     public class Tag
     {
         public virtual int Id { get; set; }
-        public virtual IList<Visit> VisitsIn { get; set; }
+        public virtual Visit Visit { get; set; }
         public virtual string Name { get; set; }
-
-        public Tag()
-        {
-            VisitsIn = new List<Visit>();
-        }
-
     }
     public class TagMap : ClassMap<Tag>
     {
@@ -89,9 +76,7 @@ namespace PatientRecordsWPF2.Domain
         {
             Id(x => x.Id);
             Map(x => x.Name).Not.Nullable();
-            HasManyToMany(x => x.VisitsIn)
-             .Cascade.All()
-             .Table("VisitTag");
+            References(x => x.Visit);
         }
     }
 }

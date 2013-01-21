@@ -37,6 +37,8 @@ namespace PatientRecordsWPF2
         private enum Mode { create, update };
         private Mode mode;
         private Domain.Visit SelectedVisit;
+        private List<Domain.Symptom> TempVisitSymptoms;
+        private List<Domain.Tag> TempVisitTags;
 
         public PatientVisits()
         {
@@ -49,31 +51,28 @@ namespace PatientRecordsWPF2
 
         private void Start()
         {
-            var sessionFactory = ((App)Application.Current).sessionFactory;
+            var session = ((App)Application.Current).session;
 
-            using (var session = sessionFactory.OpenSession())
+            /* though patient object has been passed 
+                * to access visits the session has to be
+                * initialised again */
+            Patient = session.Get<Domain.Patient>(Patient.Id);
+
+            lblTitle.Content = Patient.Name;
+            if (Patient.Visits.Count == 0)
             {
-                /* though patient object has been passed 
-                 * to access visits the session has to be
-                 * initialised again */
-                Patient = session.Get<Domain.Patient>(Patient.Id);
-
-                lblTitle.Content = Patient.Name;
-                if (Patient.Visits.Count == 0)
-                {
-                    CreateNewVisit();
-                }
-                else
-                {
-                    /* Sort Visit List by desc date */
-                    lbxVisits.ItemsSource = Patient.Visits.OrderByDescending(x => x.Date_of_Examination);
+                CreateNewVisit();
+            }
+            else
+            {
+                /* Sort Visit List by desc date */
+                lbxVisits.ItemsSource = Patient.Visits.OrderByDescending(x => x.Date_of_Examination);
                     
-                    /* select latest visit - fires event */
-                    lbxVisits.SelectedIndex = 0;
+                /* select latest visit - fires event */
+                lbxVisits.SelectedIndex = 0;
 
-                    UpdateVisit();
+                UpdateVisit();
 
-                }
             }
         }
 
@@ -101,6 +100,9 @@ namespace PatientRecordsWPF2
             txtTreatment.Text = "";
             txtTag.Text = "";
             lbxTags.ItemsSource = null;
+
+            TempVisitSymptoms = new List<Domain.Symptom>();
+            TempVisitTags = new List<Domain.Tag>();
             
         }
 
@@ -118,17 +120,6 @@ namespace PatientRecordsWPF2
         /* SAVE OF UPDATE */
         private void btnCreateEditUpdateVisit_Click(object sender, RoutedEventArgs e)
         {
-            Domain.Visit Visit;
-            if (mode == Mode.create)
-            {
-                Visit = new Domain.Visit();
-                Visit.Patient = Patient;
-            }
-            else
-            {
-                Visit = SelectedVisit;
-            }
-
             // VALIDATION
             bool isError = false;
             if (String.IsNullOrEmpty(txtDoctor.Text))
@@ -146,6 +137,18 @@ namespace PatientRecordsWPF2
                 return;
             }
 
+            Domain.Visit Visit;
+            if (mode == Mode.create)
+            {
+                Visit = new Domain.Visit();
+                Visit.Patient = Patient;
+                Patient.Visits.Add(Visit);
+            }
+            else
+            {
+                Visit = SelectedVisit;
+            }
+
             // ENCAPSULATION
             Visit.ReferredBy = txtReferredBy.Text;
             Visit.Doctors_Email = txtDoctors_Email.Text;
@@ -155,24 +158,54 @@ namespace PatientRecordsWPF2
             Visit.Diagnosis = txtDiagnosis.Text;
             Visit.Treatment = txtTreatment.Text;
 
-            // DB
-            var sessionFactory = ((App)Application.Current).sessionFactory;
-
-            using (var session = sessionFactory.OpenSession())
+            foreach (Domain.Symptom sym in TempVisitSymptoms)
             {
-                using (var transaction = session.BeginTransaction())
+                bool isNew = true;
+                foreach (Domain.Symptom s in Visit.Symptoms)
                 {
-                    session.SaveOrUpdate(Visit);
-                    transaction.Commit();
+                    if (s.Name == sym.Name)
+                    {
+                        isNew = false;
+                    }
                 }
+                if (isNew)
+                {
+                    sym.Visit = Visit;
+                    Visit.Symptoms.Add(sym);
+                }
+            }
+            foreach (Domain.Tag tag in TempVisitTags)
+            {
+                bool isNew = true;
+                foreach (Domain.Tag t in Visit.Tags)
+                {
+                    if (t.Name == tag.Name)
+                    {
+                        isNew = false;
+                    }
+                }
+                if (isNew)
+                {
+                    tag.Visit = Visit;
+                    Visit.Tags.Add(tag);
+                }
+            }
+
+            // DB
+            var session = ((App)Application.Current).session;
+
+            using (var transaction = session.BeginTransaction())
+            {
+                session.SaveOrUpdate(Visit);
+                transaction.Commit();
             }
 
             if (mode == Mode.create)
             {
                 CreateNewVisitComplete();
+                Start();
             }
 
-            Start();
         }
 
         /* populates selected visit details */        
@@ -197,6 +230,13 @@ namespace PatientRecordsWPF2
 
                 txtDiagnosis.Text = SelectedVisit.Diagnosis;
                 txtTreatment.Text = SelectedVisit.Treatment;
+
+                TempVisitSymptoms = SelectedVisit.Symptoms.ToList();
+                TempVisitTags = SelectedVisit.Tags.ToList();
+
+                lbxSymptoms.ItemsSource = TempVisitSymptoms;
+                lbxTags.ItemsSource = TempVisitTags;
+
             }
         }
 
@@ -223,6 +263,34 @@ namespace PatientRecordsWPF2
         private void dtDate_of_Examination_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             dtDate_of_Examination.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
+        }
+
+        private void btnAddSymptom_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtSymptom.Text != "")
+            {
+                Domain.Symptom symptom = new Domain.Symptom();
+                symptom.Name = txtSymptom.Text;
+                TempVisitSymptoms.Add(symptom);
+
+                lbxSymptoms.ItemsSource = null;
+                lbxSymptoms.ItemsSource = TempVisitSymptoms;
+                txtSymptom.Text = "";
+            }
+        }
+
+        private void btnAddTag_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtTag.Text != "")
+            {
+                Domain.Tag tag = new Domain.Tag();
+                tag.Name = txtTag.Text;
+                TempVisitTags.Add(tag);
+
+                lbxTags.ItemsSource = null;
+                lbxTags.ItemsSource = TempVisitTags;
+                txtTag.Text = "";
+            }
         }
 
     }

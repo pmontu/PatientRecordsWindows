@@ -19,10 +19,16 @@ namespace PatientRecordsWPF2
     /// </summary>
     public partial class App : Application
     {
-        public ISessionFactory sessionFactory;
+        public ISession session { get; set; }
         public App() 
         {
-            sessionFactory = CreateSessionFactory();
+            var sessionFactory = CreateSessionFactory();
+            session = sessionFactory.OpenSession();
+            if (!session.IsConnected)
+            {
+                MessageBox.Show("Unable to connect to database, please make sure PR.db is present in the same directory as the application");
+                Application.Current.Shutdown();
+            }
         }
         private static ISessionFactory CreateSessionFactory()
         {
