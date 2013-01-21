@@ -163,7 +163,7 @@ Height="25" HorizontalAlignment="Right" Click="btnCreateEditUpdateVisit_Click">C
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Date_of_Examination}" />
+                            <TextBlock Text="{Binding Date_of_Examination, StringFormat={}{0:dddd dd MMM yyyy}}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

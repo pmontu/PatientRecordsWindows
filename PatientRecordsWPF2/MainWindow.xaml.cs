@@ -28,11 +28,20 @@ namespace PatientRecordsWPF2
         }
 
         /* VIEW PATIENT VISITS */
+
         private void btnViewPatientDetails_Click(object sender, RoutedEventArgs e)
         {
-            var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
-            pv.Owner = this;
-            pv.ShowDialog();
+            ViewPatientVisits();
+        }
+
+        private void ViewPatientVisits()
+        {
+            if (lbxPatients.SelectedIndex != -1)
+            {
+                var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
+                pv.Owner = this;
+                pv.ShowDialog();
+            }
         }
 
         /* ADD NEW PATIENT */
@@ -55,20 +64,7 @@ namespace PatientRecordsWPF2
             /* keyboard focus on search filter textbox */
             Keyboard.Focus(txtSearchFilter);    
         }
-
-        /* ENABLE VIEW BUTTON only when a patient from list is selected */
-        private void lbPatients_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(lbxPatients.SelectedIndex==-1)
-            {
-                btnViewPatientDetails.IsEnabled = false;
-            }
-            if (lbxPatients.SelectedIndex != -1)
-            {
-                btnViewPatientDetails.IsEnabled = true;
-            }
-        }
-
+        
         /* SEARCH FILTER */
         private void txtSearchFilter_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -80,6 +76,11 @@ namespace PatientRecordsWPF2
                 }
                 return false;
             };
+        }
+
+        private void lbxPatients_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ViewPatientVisits();
         }
     }
 }
