@@ -123,9 +123,14 @@
                         <ListBox x:Name="lbxTags" Margin="12,2" Height="60">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
                                         <TextBlock Text="{Binding Name}" />
-                                    </StackPanel>
+                                        <Button x:Name="btnRemoveTag" Grid.Column="1" Style="{StaticResource LinkButton}" HorizontalAlignment="Right" Click="btnRemoveTag_Click">x</Button>
+                                    </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>

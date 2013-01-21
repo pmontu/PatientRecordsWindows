@@ -209,6 +209,7 @@ namespace PatientRecordsWPF2
             }
             foreach (Domain.Symptom s in toberemovedSymptoms)
             {
+                s.Visit = null;
                 Visit.Symptoms.Remove(s);
             }
 
@@ -230,6 +231,7 @@ namespace PatientRecordsWPF2
             }
             foreach (Domain.Tag t in toberemovedTags)
             {
+                t.Visit = null;
                 Visit.Tags.Remove(t);
             }
 
@@ -341,6 +343,14 @@ namespace PatientRecordsWPF2
             TempVisitSymptoms.Remove(((Domain.Symptom)((Button)sender).DataContext));
             lbxSymptoms.ItemsSource = null;
             lbxSymptoms.ItemsSource = TempVisitSymptoms;
+        }
+
+        private void btnRemoveTag_Click(object sender, RoutedEventArgs e)
+        {
+            TempVisitTags.Remove(((Domain.Tag)((Button)sender).DataContext));
+            lbxTags.ItemsSource = null;
+            lbxTags.ItemsSource = TempVisitTags;
+
         }
 
     }

@@ -39,12 +39,12 @@ namespace PatientRecordsWPF2.Domain
             Map(x => x.Date_of_Examination).Not.Nullable();
             HasMany(x => x.Symptoms)
              .Inverse()
-             .Cascade.All();
+             .Cascade.AllDeleteOrphan();
             Map(x => x.Diagnosis).Nullable();
             Map(x => x.Treatment).Nullable();
             HasMany(x => x.Tags)
              .Inverse()
-             .Cascade.All();
+             .Cascade.AllDeleteOrphan();
         }
     }
 
