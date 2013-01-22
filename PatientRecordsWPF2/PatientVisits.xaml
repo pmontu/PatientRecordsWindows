@@ -63,8 +63,8 @@
                         </Label>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <controls:AutoCompleteBox x:Name="acbReferredBy" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
-                        <controls:AutoCompleteBox x:Name="acbDoctors_Email" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbReferredBy" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbReferredBy_TextChanged"/>
+                        <controls:AutoCompleteBox x:Name="acbDoctors_Email" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbDoctors_Email_TextChanged"/>
                         <controls:AutoCompleteBox x:Name="acbDoctor" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbDoctor_TextChanged" />
                         <DatePicker x:Name="dtDate_of_Examination" Margin="12,2" Height="30" SelectedDateChanged="dtDate_of_Examination_SelectedDateChanged"/>
                         <Grid Margin="12,2">
@@ -86,7 +86,7 @@
                                 </Button.Style>
                             </Button>
                         </Grid>
-                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60">
+                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60" SourceUpdated="lbxSymptoms_SourceUpdated">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -100,8 +100,8 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <controls:AutoCompleteBox x:Name="acbDiagnosis" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
-                        <controls:AutoCompleteBox x:Name="acbTreatment" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbDiagnosis" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbDiagnosis_TextChanged"/>
+                        <controls:AutoCompleteBox x:Name="acbTreatment" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbTreatment_TextChanged"/>
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -121,7 +121,7 @@
                                 </Button.Style>
                             </Button>
                         </Grid>
-                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60">
+                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60" SourceUpdated="lbxTags_SourceUpdated">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

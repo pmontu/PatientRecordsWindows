@@ -106,6 +106,7 @@ namespace PatientRecordsWPF2
         {
             mode = PatientVisits.Mode.update;
             btnCreateEditUpdateVisit.Content = "Update";
+            btnCreateEditUpdateVisit.IsEnabled = false;
         }
 
         /* FRESH */
@@ -278,6 +279,7 @@ namespace PatientRecordsWPF2
             }
             else
             {
+                UpdateVisit();
                 Refresh();
             }
 
@@ -293,9 +295,8 @@ namespace PatientRecordsWPF2
                 if (mode == Mode.create)
                 {
                     CreateNewVisitComplete();
-                    UpdateVisit();
                 }
-
+                
                 SelectedVisit = (Domain.Visit)lbxVisits.SelectedItem;
 
                 acbReferredBy.Text = SelectedVisit.ReferredBy;
@@ -313,6 +314,8 @@ namespace PatientRecordsWPF2
                 lbxTags.ItemsSource = TempVisitTags;
                 acbSymptom.Text = "";
                 acbTag.Text = "";
+                
+                UpdateVisit();
 
             }
         }
@@ -335,10 +338,12 @@ namespace PatientRecordsWPF2
         private void acbDoctor_TextChanged(object sender, RoutedEventArgs e)
         {
             acbDoctor.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
+            SomeChangeForUpdate();
         }
         private void dtDate_of_Examination_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             dtDate_of_Examination.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
+            SomeChangeForUpdate();
         }
 
         private void btnAddSymptom_Click(object sender, RoutedEventArgs e)
@@ -384,6 +389,39 @@ namespace PatientRecordsWPF2
 
         }
 
+        private void SomeChangeForUpdate()
+        {
+            btnCreateEditUpdateVisit.IsEnabled = true;
+        }        
 
+        private void acbReferredBy_TextChanged(object sender, RoutedEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void acbDoctors_Email_TextChanged(object sender, RoutedEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void lbxSymptoms_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void acbDiagnosis_TextChanged(object sender, RoutedEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void acbTreatment_TextChanged(object sender, RoutedEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void lbxTags_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
     }
 }
