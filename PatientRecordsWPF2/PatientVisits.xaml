@@ -63,22 +63,22 @@
                         </Label>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
-                        <TextBox x:Name="txtReferredBy" Margin="12,2" Height="30" />
-                        <TextBox x:Name="txtDoctors_Email" Margin="12,2" Height="30" />
-                        <controls:AutoCompleteBox x:Name="acbDoctor" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbReferredBy" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbDoctors_Email" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbDoctor" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains" TextChanged="acbDoctor_TextChanged" />
                         <DatePicker x:Name="dtDate_of_Examination" Margin="12,2" Height="30" SelectedDateChanged="dtDate_of_Examination_SelectedDateChanged"/>
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtSymptom" Height="30" Margin="0,0,2,0" />
+                            <controls:AutoCompleteBox x:Name="acbSymptom" Margin="0,0,2,0" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
                             <Button x:Name="btnAddSymptom" Grid.Column="1" Click="btnAddSymptom_Click">Add
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="IsEnabled" Value="True" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=txtSymptom}" Value="">
+                                            <DataTrigger Binding="{Binding Text, ElementName=acbSymptom}" Value="">
                                                 <Setter Property="IsEnabled" Value="False" />
                                             </DataTrigger>
                                         </Style.Triggers>
@@ -100,20 +100,20 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBox x:Name="txtDiagnosis" Margin="12,2" Height="30" />
-                        <TextBox x:Name="txtTreatment" Margin="12,2" Height="30" />
+                        <controls:AutoCompleteBox x:Name="acbDiagnosis" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
+                        <controls:AutoCompleteBox x:Name="acbTreatment" Margin="12,2" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
                         <Grid Margin="12,2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtTag" Height="30" Margin="0,0,2,0"  />
+                            <controls:AutoCompleteBox x:Name="acbTag" Margin="0,0,2,0" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
                             <Button x:Name="btnAddTag" Grid.Column="1" Click="btnAddTag_Click">Add
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="IsEnabled" Value="True" />
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Text, ElementName=txtTag}" Value="">
+                                            <DataTrigger Binding="{Binding Text, ElementName=acbTag}" Value="">
                                                 <Setter Property="IsEnabled" Value="False" />
                                             </DataTrigger>
                                         </Style.Triggers>

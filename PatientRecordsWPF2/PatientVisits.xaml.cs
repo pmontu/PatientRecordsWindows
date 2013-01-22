@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Windows.Controls;
 using NHibernate.Criterion;
 using NHibernate;
 
@@ -61,13 +60,7 @@ namespace PatientRecordsWPF2
                 * initialised again */
             Patient = session.Get<Domain.Patient>(Patient.Id);
 
-            /* Auto complete fields */
-            var Doctors = session.CreateCriteria(typeof(Domain.Visit))
-                .SetProjection(Projections.Distinct(Projections.ProjectionList().Add(Projections.Alias(Projections.Property("Doctor"), "Doctor"))))
-                //.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(Domain.Visit)))
-                .List();
-
-            acbDoctor.ItemsSource = Doctors;
+            Refresh();
 
             lblTitle.Content = Patient.Name;
             if (Patient.Visits.Count == 0)
@@ -87,6 +80,28 @@ namespace PatientRecordsWPF2
             }
         }
 
+        private void Refresh()
+        {
+            /* Auto complete fields */
+            acbDoctor.ItemsSource = DataBindAutoCompleteField("Doctor", typeof(Domain.Visit));
+            acbReferredBy.ItemsSource = DataBindAutoCompleteField("ReferredBy", typeof(Domain.Visit));
+            acbDoctors_Email.ItemsSource = DataBindAutoCompleteField("Doctors_Email", typeof(Domain.Visit));
+            acbSymptom.ItemsSource = DataBindAutoCompleteField("Name", typeof(Domain.Symptom));
+            acbDiagnosis.ItemsSource = DataBindAutoCompleteField("Diagnosis", typeof(Domain.Visit));
+            acbTreatment.ItemsSource = DataBindAutoCompleteField("Treatment", typeof(Domain.Visit));
+            acbTag.ItemsSource = DataBindAutoCompleteField("Name", typeof(Domain.Tag));
+        }
+
+        private System.Collections.IEnumerable DataBindAutoCompleteField(string Column, Type classtype)
+        {
+            var session = ((App)Application.Current).session;
+
+            return session.CreateCriteria(classtype)
+                .SetProjection(Projections.Distinct(Projections.ProjectionList().Add(Projections.Alias(Projections.Property(Column), Column))))
+                //.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(Domain.Visit)))
+                .List();
+        }
+
         private void UpdateVisit()
         {
             mode = PatientVisits.Mode.update;
@@ -101,15 +116,15 @@ namespace PatientRecordsWPF2
             mode = PatientVisits.Mode.create;
             btnCreateEditUpdateVisit.Content = "Create";
 
-            txtReferredBy.Text = "";
-            txtDoctors_Email.Text = "";
+            acbReferredBy.Text = "";
+            acbDoctors_Email.Text = "";
             acbDoctor.Text = "";
             dtDate_of_Examination.Text = "";
-            txtSymptom.Text = "";
+            acbSymptom.Text = "";
             lbxSymptoms.ItemsSource = null;
-            txtDiagnosis.Text = "";
-            txtTreatment.Text = "";
-            txtTag.Text = "";
+            acbDiagnosis.Text = "";
+            acbTreatment.Text = "";
+            acbTag.Text = "";
             lbxTags.ItemsSource = null;
 
             TempVisitSymptoms = new List<Domain.Symptom>();
@@ -161,13 +176,13 @@ namespace PatientRecordsWPF2
             }
 
             // ENCAPSULATION
-            Visit.ReferredBy = txtReferredBy.Text;
-            Visit.Doctors_Email = txtDoctors_Email.Text;
+            Visit.ReferredBy = acbReferredBy.Text;
+            Visit.Doctors_Email = acbDoctors_Email.Text;
             Visit.Doctor = acbDoctor.Text;
             Visit.Date_of_Examination = dtDate_of_Examination.SelectedDate.Value;
 
-            Visit.Diagnosis = txtDiagnosis.Text;
-            Visit.Treatment = txtTreatment.Text;
+            Visit.Diagnosis = acbDiagnosis.Text;
+            Visit.Treatment = acbTreatment.Text;
 
             foreach (Domain.Symptom sym in TempVisitSymptoms)
             {
@@ -261,6 +276,10 @@ namespace PatientRecordsWPF2
                 CreateNewVisitComplete();
                 Start();
             }
+            else
+            {
+                Refresh();
+            }
 
         }
 
@@ -279,19 +298,21 @@ namespace PatientRecordsWPF2
 
                 SelectedVisit = (Domain.Visit)lbxVisits.SelectedItem;
 
-                txtReferredBy.Text = SelectedVisit.ReferredBy;
-                txtDoctors_Email.Text = SelectedVisit.Doctors_Email;
+                acbReferredBy.Text = SelectedVisit.ReferredBy;
+                acbDoctors_Email.Text = SelectedVisit.Doctors_Email;
                 acbDoctor.Text = SelectedVisit.Doctor;
                 dtDate_of_Examination.Text = SelectedVisit.Date_of_Examination.Date.ToString();
 
-                txtDiagnosis.Text = SelectedVisit.Diagnosis;
-                txtTreatment.Text = SelectedVisit.Treatment;
+                acbDiagnosis.Text = SelectedVisit.Diagnosis;
+                acbTreatment.Text = SelectedVisit.Treatment;
 
                 TempVisitSymptoms = SelectedVisit.Symptoms.ToList();
                 TempVisitTags = SelectedVisit.Tags.ToList();
 
                 lbxSymptoms.ItemsSource = TempVisitSymptoms;
                 lbxTags.ItemsSource = TempVisitTags;
+                acbSymptom.Text = "";
+                acbTag.Text = "";
 
             }
         }
@@ -311,11 +332,10 @@ namespace PatientRecordsWPF2
         }
 
         /* VALIDATION COLOR CHANGES BACK TO NORMAL */
-        private void txtDoctor_TextChanged(object sender, TextChangedEventArgs e)
+        private void acbDoctor_TextChanged(object sender, RoutedEventArgs e)
         {
             acbDoctor.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
         }
-
         private void dtDate_of_Examination_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             dtDate_of_Examination.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
@@ -323,29 +343,29 @@ namespace PatientRecordsWPF2
 
         private void btnAddSymptom_Click(object sender, RoutedEventArgs e)
         {
-            if (txtSymptom.Text != "")
+            if (acbSymptom.Text != "")
             {
                 Domain.Symptom symptom = new Domain.Symptom();
-                symptom.Name = txtSymptom.Text;
+                symptom.Name = acbSymptom.Text;
                 TempVisitSymptoms.Add(symptom);
 
                 lbxSymptoms.ItemsSource = null;
                 lbxSymptoms.ItemsSource = TempVisitSymptoms;
-                txtSymptom.Text = "";
+                acbSymptom.Text = "";
             }
         }
 
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
-            if (txtTag.Text != "")
+            if (acbTag.Text != "")
             {
                 Domain.Tag tag = new Domain.Tag();
-                tag.Name = txtTag.Text;
+                tag.Name = acbTag.Text;
                 TempVisitTags.Add(tag);
 
                 lbxTags.ItemsSource = null;
                 lbxTags.ItemsSource = TempVisitTags;
-                txtTag.Text = "";
+                acbTag.Text = "";
             }
         }
 
@@ -363,6 +383,7 @@ namespace PatientRecordsWPF2
             lbxTags.ItemsSource = TempVisitTags;
 
         }
+
 
     }
 }
