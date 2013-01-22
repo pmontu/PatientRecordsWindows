@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls;
+using NHibernate.Criterion;
+using NHibernate;
 
 namespace PatientRecordsWPF2
 {
@@ -58,6 +61,14 @@ namespace PatientRecordsWPF2
                 * initialised again */
             Patient = session.Get<Domain.Patient>(Patient.Id);
 
+            /* Auto complete fields */
+            var Doctors = session.CreateCriteria(typeof(Domain.Visit))
+                .SetProjection(Projections.Distinct(Projections.ProjectionList().Add(Projections.Alias(Projections.Property("Doctor"), "Doctor"))))
+                //.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(Domain.Visit)))
+                .List();
+
+            acbDoctor.ItemsSource = Doctors;
+
             lblTitle.Content = Patient.Name;
             if (Patient.Visits.Count == 0)
             {
@@ -92,7 +103,7 @@ namespace PatientRecordsWPF2
 
             txtReferredBy.Text = "";
             txtDoctors_Email.Text = "";
-            txtDoctor.Text = "";
+            acbDoctor.Text = "";
             dtDate_of_Examination.Text = "";
             txtSymptom.Text = "";
             lbxSymptoms.ItemsSource = null;
@@ -122,9 +133,9 @@ namespace PatientRecordsWPF2
         {
             // VALIDATION
             bool isError = false;
-            if (String.IsNullOrEmpty(txtDoctor.Text))
+            if (String.IsNullOrEmpty(acbDoctor.Text))
             {
-                txtDoctor.BorderBrush = new BrushConverter().ConvertFromString("Red") as Brush;
+                acbDoctor.BorderBrush = new BrushConverter().ConvertFromString("Red") as Brush;
                 isError = true;
             }
             if (!dtDate_of_Examination.SelectedDate.HasValue)
@@ -152,7 +163,7 @@ namespace PatientRecordsWPF2
             // ENCAPSULATION
             Visit.ReferredBy = txtReferredBy.Text;
             Visit.Doctors_Email = txtDoctors_Email.Text;
-            Visit.Doctor = txtDoctor.Text;
+            Visit.Doctor = acbDoctor.Text;
             Visit.Date_of_Examination = dtDate_of_Examination.SelectedDate.Value;
 
             Visit.Diagnosis = txtDiagnosis.Text;
@@ -270,7 +281,7 @@ namespace PatientRecordsWPF2
 
                 txtReferredBy.Text = SelectedVisit.ReferredBy;
                 txtDoctors_Email.Text = SelectedVisit.Doctors_Email;
-                txtDoctor.Text = SelectedVisit.Doctor;
+                acbDoctor.Text = SelectedVisit.Doctor;
                 dtDate_of_Examination.Text = SelectedVisit.Date_of_Examination.Date.ToString();
 
                 txtDiagnosis.Text = SelectedVisit.Diagnosis;
@@ -302,7 +313,7 @@ namespace PatientRecordsWPF2
         /* VALIDATION COLOR CHANGES BACK TO NORMAL */
         private void txtDoctor_TextChanged(object sender, TextChangedEventArgs e)
         {
-            txtDoctor.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
+            acbDoctor.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
         }
 
         private void dtDate_of_Examination_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
