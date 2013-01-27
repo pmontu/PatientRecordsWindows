@@ -423,5 +423,21 @@ namespace PatientRecordsWPF2
         {
             SomeChangeForUpdate();
         }
+
+        private void cbxImageDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cbx = ((ComboBox)sender);
+            if (cbx.SelectedIndex != -1)
+            {
+                videoCapElement.VideoCaptureSource = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbx.SelectedItem).Name;
+                videoCapElement.Play();
+            }
+        }
+        
+        private void tabPhotos_Loaded(object sender, RoutedEventArgs e)
+        {
+            cbxImageDevices.SelectedIndex = 0;
+
+        }
     }
 }
