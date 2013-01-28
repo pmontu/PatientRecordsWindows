@@ -439,5 +439,12 @@ namespace PatientRecordsWPF2
             cbxImageDevices.SelectedIndex = 0;
 
         }
+
+        private void btnSnapshot_Click(object sender, RoutedEventArgs e)
+        {
+            var md = new MediaDetails();
+            md.Owner = this;
+            md.ShowDialog();
+        }
     }
 }

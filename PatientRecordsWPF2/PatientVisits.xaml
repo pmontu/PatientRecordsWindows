@@ -141,7 +141,7 @@
                 				ItemsSource="{Binding Source={x:Static WPFMediaKit:MultimediaUtil.VideoInputDevices}}"
                 				DisplayMemberPath="Name" SelectionChanged="cbxImageDevices_SelectionChanged"
                                       />
-                            <Button x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5"/>
+                            <Button x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
                         </StackPanel>
                         <WPFMediaKit:VideoCaptureElement Grid.Row="1" x:Name="videoCapElement"
                 			Stretch="Fill"
