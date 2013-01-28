@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using NHibernate.Criterion;
 using NHibernate;
+using WPFMediaKit.DirectShow.Controls;
 
 namespace PatientRecordsWPF2
 {
@@ -139,9 +140,10 @@ namespace PatientRecordsWPF2
             btnAddNewVisit.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void wVisit_Activated(object sender, EventArgs e)
+        private void wVisit_Loaded(object sender, RoutedEventArgs e)
         {
             Start();
+
         }
 
         /* SAVE OF UPDATE */
@@ -426,25 +428,34 @@ namespace PatientRecordsWPF2
 
         private void cbxImageDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var cbx = ((ComboBox)sender);
-            if (cbx.SelectedIndex != -1)
+            if (cbxImageDevices.SelectedIndex != -1)
             {
-                videoCapElement.VideoCaptureSource = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbx.SelectedItem).Name;
-                videoCapElement.Play();
+                string name = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbxImageDevices.SelectedItem).Name;
+                frameVideoCapElement.Navigate(new VideoCaptureElement(name));
+                frameVideoCapElement.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;                
             }
         }
         
-        private void tabPhotos_Loaded(object sender, RoutedEventArgs e)
-        {
-            cbxImageDevices.SelectedIndex = 0;
-
-        }
-
         private void btnSnapshot_Click(object sender, RoutedEventArgs e)
         {
             var md = new MediaDetails();
             md.Owner = this;
             md.ShowDialog();
         }
+
+        private void tabVisit_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.OriginalSource != tabVisit )
+                return;
+
+            if ((TabItem)tabVisit.SelectedItem == tabitemPhotos)
+            {
+                cbxImageDevices.ItemsSource = null;
+                cbxImageDevices.ItemsSource = MultimediaUtil.VideoInputDevices;
+                cbxImageDevices.DisplayMemberPath = "Name";                   
+            }
+        }
+
+
     }
 }

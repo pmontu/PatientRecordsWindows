@@ -53,7 +53,7 @@ namespace PatientRecordsWPF2
         }
 
         /* PAGE INIT */
-        private void wSearch_Activated(object sender, EventArgs e)
+        private void wSearch_Loaded(object sender, RoutedEventArgs e)
         {
             var session = ((App)Application.Current).session;
 
@@ -62,7 +62,8 @@ namespace PatientRecordsWPF2
             lbxPatients.ItemsSource = patients;
 
             /* keyboard focus on search filter textbox */
-            Keyboard.Focus(txtSearchFilter);    
+            Keyboard.Focus(txtSearchFilter);   
+
         }
         
         /* SEARCH FILTER */
@@ -82,5 +83,6 @@ namespace PatientRecordsWPF2
         {
             ViewPatientVisits();
         }
+
     }
 }

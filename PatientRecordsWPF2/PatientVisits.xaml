@@ -4,7 +4,7 @@
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:WPFMediaKit="clr-namespace:WPFMediaKit.DirectShow.Controls;assembly=WPFMediaKit"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="wVisit" x:Class="PatientRecordsWPF2.PatientVisits"
-        Title="Patient Records" Height="635" Width="641" Activated="wVisit_Activated">
+        Title="Patient Records" Height="635" Width="641" Loaded="wVisit_Loaded">
     <Grid Margin="10,0,10,10">
         <Grid.Background>
             <ImageBrush />
@@ -23,7 +23,7 @@
         <!--<Border Grid.Column="1" Grid.Row="1" Height="35" Padding="5" Background="#4E87D4">
             <Label VerticalAlignment="Center" Foreground="White">Details</Label>
         </Border>-->
-        <TabControl Grid.Row="1" Grid.Column="1" Background="White" >
+        <TabControl x:Name="tabVisit" Grid.Row="1" Grid.Column="1" Background="White" SelectionChanged="tabVisit_SelectionChanged" >
             <TabItem >
                 <TabItem.Header>
                     <!--<Border Height="35" Padding="5" Background="#4E87D4">
@@ -122,7 +122,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabPhotos" Loaded="tabPhotos_Loaded" >
+            <TabItem x:Name="tabitemPhotos" >
                 <TabItem.Header>
                     <TextBlock FontWeight="Bold"><Run Text="Photos"/></TextBlock>
                 </TabItem.Header>
@@ -133,19 +133,21 @@
                     </Grid.ColumnDefinitions>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                            <ComboBox x:Name="cbxImageDevices" 
-                				ItemsSource="{Binding Source={x:Static WPFMediaKit:MultimediaUtil.VideoInputDevices}}"
-                				DisplayMemberPath="Name" SelectionChanged="cbxImageDevices_SelectionChanged"
+                        <Grid Margin="10,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150*"/>
+                                <ColumnDefinition Width="77*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox x:Name="cbxImageDevices" SelectionChanged="cbxImageDevices_SelectionChanged"
                                       />
-                            <Button x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
-                        </StackPanel>
-                        <WPFMediaKit:VideoCaptureElement Grid.Row="1" x:Name="videoCapElement"
-                			Stretch="Fill"
-                			FPS="30" Margin="10,10,0,0" />
+                            <Button Grid.Column="1" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click" Grid.ColumnSpan="2"/>
+                        </Grid>
+                        <Frame Grid.Row="1" x:Name="frameVideoCapElement" Margin="10,10,0,0"/>
+                        <Grid />
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,0,0">
                         <Grid.RowDefinitions>

@@ -80,7 +80,7 @@ namespace PatientRecordsWPF2
             this.Close();
         }
 
-        private void wDetails_Activated(object sender, EventArgs e)
+        private void wDetails_Loaded(object sender, RoutedEventArgs e)
         {
             cbxSex.ItemsSource = Enum.GetValues(typeof(Domain.Sex));
             if (Patient != null)
@@ -116,6 +116,7 @@ namespace PatientRecordsWPF2
         {
             borderCbxSex.BorderBrush = new BrushConverter().ConvertFromString("#FFABADB3") as Brush;
         }
+
 
     }
 }

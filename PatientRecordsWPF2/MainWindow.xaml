@@ -1,7 +1,7 @@
 ﻿<Window x:Name="wSearch" x:Class="PatientRecordsWPF2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Patient Records" Height="350" Width="525" Activated="wSearch_Activated">
+        Title="Patient Records" Height="350" Width="525" Loaded="wSearch_Loaded" >
     <Grid Margin="10,0,10,10">
         <Grid.Background>
             <ImageBrush />
