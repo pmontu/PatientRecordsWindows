@@ -161,15 +161,6 @@
     <Resource Include="Resources\a.jpg" />
     <Resource Include="Resources\b.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Screenshots\Build 2\06photos_tab.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Screenshots\Build 1\01searchfilter.png" />
-    <Resource Include="Screenshots\Build 1\03Visit.png" />
-    <Resource Include="Screenshots\Build 1\04Autocomplete.png" />
-    <Resource Include="Screenshots\Build 1\05Details.png" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

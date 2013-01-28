@@ -124,7 +124,7 @@
             </TabItem>
             <TabItem x:Name="tabitemPhotos" >
                 <TabItem.Header>
-                    <TextBlock FontWeight="Bold"><Run Text="Photos"/></TextBlock>
+                    <TextBlock FontWeight="Bold"><Run Text="Media"/></TextBlock>
                 </TabItem.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -134,40 +134,56 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid Margin="10,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="150*"/>
-                                <ColumnDefinition Width="77*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <ComboBox x:Name="cbxImageDevices" SelectionChanged="cbxImageDevices_SelectionChanged"
-                                      />
-                            <Button Grid.Column="1" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click" Grid.ColumnSpan="2"/>
-                        </Grid>
-                        <Frame Grid.Row="1" x:Name="frameVideoCapElement" Margin="10,10,0,0"/>
-                        <Grid />
-                    </Grid>
-                    <Grid Grid.Column="1" Margin="10,0,0,0">
-                        <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Border Height="35" Padding="5" Background="#4E87D4" Margin="0,0,33,0">
-                            <Label VerticalAlignment="Center" Foreground="White" Content="Images"/>
-                        </Border>
-                        <ListBox x:Name="lstImages" Grid.Row="1">
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Resources/a.jpg" Width="20" Height="20"  />
-                                <TextBlock Text="throat" Margin="10,0,0,0" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Resources/b.jpg" Width="20" Height="20"  />
-                                <TextBlock Text="throat again" Margin="10,0,0,0" />
-                            </StackPanel>
-                        </ListBox>
+                        <ComboBox x:Name="cbxImageDevices" SelectionChanged="cbxImageDevices_SelectionChanged" Margin="10,10,0,0"/>
+                        <Grid Grid.Row="1" Margin="10,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btnStart" Content="Start" Padding="5" />
+                            <Button Grid.Column="1" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" />
+                            <Button Grid.Column="2" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
+                        </Grid>
+                        
+                        <Frame Grid.Row="2" x:Name="frameVideoCapElement" Margin="10,10,0,0"/>
+                        <Grid />
                     </Grid>
+                    <TabControl Grid.Column="1" Margin="10,0,0,0">
+                        <TabItem>
+                            <TabItem.Header>
+                                Photos
+                            </TabItem.Header>                                
+                                <ListBox x:Name="lstImages" Grid.Row="1" BorderBrush="{x:Null}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Resources/a.jpg" Width="20" Height="20"  />
+                                        <TextBlock Text="throat" Margin="10,0,0,0" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Resources/b.jpg" Width="20" Height="20"  />
+                                        <TextBlock Text="throat again" Margin="10,0,0,0" />
+                                    </StackPanel>
+                                </ListBox>
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                Videos
+                            </TabItem.Header>
+                            <ListBox x:Name="lstVideos" Grid.Row="1" BorderBrush="{x:Null}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Resources/a.jpg" Width="20" Height="20"  />
+                                    <TextBlock Text="throat" Margin="10,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Resources/b.jpg" Width="20" Height="20"  />
+                                    <TextBlock Text="throat again" Margin="10,0,0,0" />
+                                </StackPanel>
+                            </ListBox>
+                        </TabItem>
+                    </TabControl>
                 </Grid>
             </TabItem>
         </TabControl>
