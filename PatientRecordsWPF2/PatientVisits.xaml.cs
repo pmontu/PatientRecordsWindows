@@ -439,6 +439,8 @@ namespace PatientRecordsWPF2
                 webcam.StartWebcam();
                 webcam.LiveDeviceSource.PreviewWindow =
                 new PreviewWindow(new HandleRef(WebcamPanel, WebcamPanel.Handle));
+                btnStart.IsEnabled = true;
+                btnSnapshot.IsEnabled = true;
 
             }
         }
@@ -457,6 +459,10 @@ namespace PatientRecordsWPF2
 
             if ((TabItem)tabVisit.SelectedItem == tabitemPhotos)
             {
+                btnStart.IsEnabled = false;
+                btnStop.IsEnabled = false;
+                btnSnapshot.IsEnabled = false;
+
                 if (webcam == null)
                 {
                     webcam = new WebCam(); 
@@ -481,6 +487,30 @@ namespace PatientRecordsWPF2
                     }
             }
         }
+
+        private void btnStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (webcam != null)
+                if (webcam.isConnected)
+                {
+                    webcam.StartRecording();
+                    btnStart.IsEnabled = false;
+                    btnStop.IsEnabled = true;
+                    btnSnapshot.IsEnabled = false;
+                }
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            if (webcam != null)
+                if (webcam.isRecording)
+                {
+                    webcam.StopRecording();
+                    btnStop.IsEnabled = false;
+                    btnStart.IsEnabled = true;
+                    btnSnapshot.IsEnabled = true;
+                }
+        }
     }
 
     public class WebCam
@@ -490,6 +520,8 @@ namespace PatientRecordsWPF2
         public LiveDeviceSource LiveDeviceSource { get; set; }
         public EncoderDevice SelectedVideoDevice { get; set; }
         public bool isConnected { get; set; }
+        public bool isRecording { get; set; }
+        public FileArchivePublishFormat FileArchivePublishFormat { get; set; }
 
         public WebCam()
         {
@@ -512,6 +544,9 @@ namespace PatientRecordsWPF2
             LiveJob = null;
             LiveJob = new LiveJob();
             LiveDeviceSource = LiveJob.AddDeviceSource(SelectedVideoDevice, null);
+            //System.Drawing.Size framesize = new System.Drawing.Size(1280, 960);
+            //LiveDeviceSource.PickBestVideoFormat(framesize, 30);
+            //LiveJob.OutputFormat.VideoProfile.Size = framesize;
             LiveJob.ActivateSource(LiveDeviceSource);
             isConnected = true;
             return true;
@@ -521,6 +556,20 @@ namespace PatientRecordsWPF2
             LiveJob.RemoveDeviceSource(LiveDeviceSource);
             LiveDeviceSource = null;
             isConnected = false;
+        }
+        public bool StartRecording()
+        {
+            FileArchivePublishFormat = new FileArchivePublishFormat();
+            FileArchivePublishFormat.OutputFileName = @"C:\Users\ManojKumar\Desktop\temp.wmv";
+            LiveJob.PublishFormats.Add(FileArchivePublishFormat);
+            LiveJob.StartEncoding();
+            isRecording = true;
+            return true;
+        }
+        public void StopRecording()
+        {
+            LiveJob.StopEncoding();
+            isRecording = false;
         }
     }
 }

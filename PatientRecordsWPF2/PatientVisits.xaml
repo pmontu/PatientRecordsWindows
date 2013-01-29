@@ -140,9 +140,9 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <ComboBox x:Name="cbxImageDevices" SelectionChanged="cbxImageDevices_SelectionChanged" Margin="10,10,0,0"/>
-                        <Button Grid.Column="1" x:Name="btnStart" Content="Start" Padding="5" Margin="10,0,0,0" Background="#FFDDDDDD" />
-                        <Button Grid.Column="2" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" />
-                        <Button Grid.Column="3" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
+                        <Button Grid.Column="1" x:Name="btnStart" Content="Start" Padding="5" Margin="10,0,0,0" Background="#FFDDDDDD" Click="btnStart_Click" IsEnabled="False" />
+                        <Button Grid.Column="2" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" Click="btnStop_Click" IsEnabled="False" />
+                        <Button Grid.Column="3" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click" IsEnabled="False"/>
                     </Grid>
                     <WindowsFormsHost Grid.Row="1" Width="320" Height="240" Margin="10,10,0,0" Name="WinFormHost" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top">
                         <wf:Panel x:Name="WebcamPanel"  />
