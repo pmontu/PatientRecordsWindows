@@ -127,47 +127,41 @@
                     <TextBlock FontWeight="Bold"><Run Text="Media"/></TextBlock>
                 </TabItem.Header>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="150"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>                    
+                    <Grid Margin="10,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
                         <ComboBox x:Name="cbxImageDevices" SelectionChanged="cbxImageDevices_SelectionChanged" Margin="10,10,0,0"/>
-                        <Grid Grid.Row="1" Margin="10,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="btnStart" Content="Start" Padding="5" />
-                            <Button Grid.Column="1" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" />
-                            <Button Grid.Column="2" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
-                        </Grid>
-                        <WindowsFormsHost Grid.Row="2" Margin="10,10,0,0" Name="WinFormHost" Background="{x:Null}">
-                            <wf:Panel x:Name="WebcamPanel" Size="320,240" />
-                        </WindowsFormsHost>
-                        <Grid />
+                        <Button Grid.Column="1" x:Name="btnStart" Content="Start" Padding="5" Margin="10,0,0,0" Background="#FFDDDDDD" />
+                        <Button Grid.Column="2" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" />
+                        <Button Grid.Column="3" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click"/>
                     </Grid>
-                    <TabControl Grid.Column="1" Margin="10,0,0,0">
+                    <WindowsFormsHost Grid.Row="1" Width="320" Height="240" Margin="10,10,0,0" Name="WinFormHost" Background="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <wf:Panel x:Name="WebcamPanel"  />
+                    </WindowsFormsHost>
+                    <TabControl Grid.Row="2" Margin="10,10,0,0">
                         <TabItem>
                             <TabItem.Header>
                                 Photos
-                            </TabItem.Header>                                
-                                <ListBox x:Name="lstImages" Grid.Row="1" BorderBrush="{x:Null}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="Resources/a.jpg" Width="20" Height="20"  />
-                                        <TextBlock Text="throat" Margin="10,0,0,0" />
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="Resources/b.jpg" Width="20" Height="20"  />
-                                        <TextBlock Text="throat again" Margin="10,0,0,0" />
-                                    </StackPanel>
-                                </ListBox>
+                            </TabItem.Header>
+                            <ListBox x:Name="lstImages" Grid.Row="1" BorderBrush="{x:Null}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Resources/a.jpg" Width="20" Height="20"  />
+                                    <TextBlock Text="throat" Margin="10,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="Resources/b.jpg" Width="20" Height="20"  />
+                                    <TextBlock Text="throat again" Margin="10,0,0,0" />
+                                </StackPanel>
+                            </ListBox>
                         </TabItem>
                         <TabItem>
                             <TabItem.Header>

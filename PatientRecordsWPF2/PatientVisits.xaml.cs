@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using NHibernate.Criterion;
 using NHibernate;
 using Microsoft.Expression.Encoder.Devices;
+using Microsoft.Expression.Encoder.Live;
+using System.Runtime.InteropServices;
 
 namespace PatientRecordsWPF2
 {
@@ -431,9 +433,13 @@ namespace PatientRecordsWPF2
         {
             if (cbxImageDevices.SelectedIndex != -1)
             {
-                //string name = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbxImageDevices.SelectedItem).Name;
-                //frameVideoCapElement.Navigate(new VideoCaptureElement(name));
-                //frameVideoCapElement.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;                
+                if(webcam.isConnected)
+                    webcam.StopWebcam();
+                webcam.SelectedVideoDevice = (EncoderDevice)cbxImageDevices.SelectedItem;
+                webcam.StartWebcam();
+                webcam.LiveDeviceSource.PreviewWindow =
+                new PreviewWindow(new HandleRef(WebcamPanel, WebcamPanel.Handle));
+
             }
         }
         
@@ -451,26 +457,44 @@ namespace PatientRecordsWPF2
 
             if ((TabItem)tabVisit.SelectedItem == tabitemPhotos)
             {
-                webcam = new WebCam();
-
-                if (webcam.InitializeListVideoDevices() > 0)
+                if (webcam == null)
                 {
-                    cbxImageDevices.ItemsSource = null;
-                    cbxImageDevices.ItemsSource = webcam.VideoDevices;
-                    cbxImageDevices.DisplayMemberPath = "Name";                    
+                    webcam = new WebCam(); 
+                    
+                    if (webcam.InitializeListVideoDevices() > 0)
+                    {
+                        cbxImageDevices.ItemsSource = null;
+                        cbxImageDevices.ItemsSource = webcam.VideoDevices;
+                        cbxImageDevices.DisplayMemberPath = "Name";
+                    }
                 }
-   
+                
+
+            }
+            else
+            {
+                if (webcam != null)
+                    if (webcam.isConnected)
+                    {
+                        webcam.StopWebcam();
+                        cbxImageDevices.SelectedIndex = -1;
+                    }
             }
         }
     }
 
     public class WebCam
     {
-        public List<EncoderDevice> VideoDevices;
+        public List<EncoderDevice> VideoDevices {get; set;}
+        public LiveJob LiveJob { get; set; }
+        public LiveDeviceSource LiveDeviceSource { get; set; }
+        public EncoderDevice SelectedVideoDevice { get; set; }
+        public bool isConnected { get; set; }
 
         public WebCam()
         {
             VideoDevices = new List<EncoderDevice>();
+            isConnected = false;
         }
         public int InitializeListVideoDevices()
         {
@@ -481,6 +505,22 @@ namespace PatientRecordsWPF2
                 nb++;
             }
             return nb;
+        }
+        public bool StartWebcam()
+        {
+            if (SelectedVideoDevice == null) return false;
+            LiveJob = null;
+            LiveJob = new LiveJob();
+            LiveDeviceSource = LiveJob.AddDeviceSource(SelectedVideoDevice, null);
+            LiveJob.ActivateSource(LiveDeviceSource);
+            isConnected = true;
+            return true;
+        }
+        public void StopWebcam()
+        {
+            LiveJob.RemoveDeviceSource(LiveDeviceSource);
+            LiveDeviceSource = null;
+            isConnected = false;
         }
     }
 }
