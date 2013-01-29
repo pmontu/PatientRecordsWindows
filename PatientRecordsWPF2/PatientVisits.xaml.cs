@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using NHibernate.Criterion;
 using NHibernate;
-using WPFMediaKit.DirectShow.Controls;
+using Microsoft.Expression.Encoder.Devices;
 
 namespace PatientRecordsWPF2
 {
@@ -42,6 +42,7 @@ namespace PatientRecordsWPF2
         private Domain.Visit SelectedVisit;
         private List<Domain.Symptom> TempVisitSymptoms;
         private List<Domain.Tag> TempVisitTags;
+        private WebCam webcam;
 
         public PatientVisits()
         {
@@ -430,9 +431,9 @@ namespace PatientRecordsWPF2
         {
             if (cbxImageDevices.SelectedIndex != -1)
             {
-                string name = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbxImageDevices.SelectedItem).Name;
-                frameVideoCapElement.Navigate(new VideoCaptureElement(name));
-                frameVideoCapElement.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;                
+                //string name = ((WPFMediaKit.DirectShow.Interop.DsDevice)cbxImageDevices.SelectedItem).Name;
+                //frameVideoCapElement.Navigate(new VideoCaptureElement(name));
+                //frameVideoCapElement.NavigationUIVisibility = System.Windows.Navigation.NavigationUIVisibility.Hidden;                
             }
         }
         
@@ -450,12 +451,36 @@ namespace PatientRecordsWPF2
 
             if ((TabItem)tabVisit.SelectedItem == tabitemPhotos)
             {
-                cbxImageDevices.ItemsSource = null;
-                cbxImageDevices.ItemsSource = MultimediaUtil.VideoInputDevices;
-                cbxImageDevices.DisplayMemberPath = "Name";                   
+                webcam = new WebCam();
+
+                if (webcam.InitializeListVideoDevices() > 0)
+                {
+                    cbxImageDevices.ItemsSource = null;
+                    cbxImageDevices.ItemsSource = webcam.VideoDevices;
+                    cbxImageDevices.DisplayMemberPath = "Name";                    
+                }
+   
             }
         }
+    }
 
+    public class WebCam
+    {
+        public List<EncoderDevice> VideoDevices;
 
+        public WebCam()
+        {
+            VideoDevices = new List<EncoderDevice>();
+        }
+        public int InitializeListVideoDevices()
+        {
+            int nb = 0;
+            foreach (EncoderDevice encoderDevice in EncoderDevices.FindDevices(EncoderDeviceType.Video))
+            {
+                VideoDevices.Add(encoderDevice);
+                nb++;
+            }
+            return nb;
+        }
     }
 }
