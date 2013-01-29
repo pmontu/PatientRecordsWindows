@@ -82,6 +82,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="WebCam.cs" />
+    <Page Include="Capture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,6 +94,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Capture.xaml.cs">
+      <DependentUpon>Capture.xaml</DependentUpon>
     </Compile>
     <Compile Include="Domain\Patient.cs" />
     <Compile Include="Domain\Visit.cs" />

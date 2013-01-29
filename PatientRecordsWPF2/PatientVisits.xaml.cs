@@ -147,6 +147,8 @@ namespace PatientRecordsWPF2
         {
             Start();
 
+            cbxVideoDevices.ItemsSource = EncoderDevices.FindDevices(EncoderDeviceType.Video);
+
         }
 
         /* SAVE OF UPDATE */
@@ -429,28 +431,7 @@ namespace PatientRecordsWPF2
             SomeChangeForUpdate();
         }
 
-        private void cbxImageDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cbxImageDevices.SelectedIndex != -1)
-            {
-                if(webcam.isConnected)
-                    webcam.StopWebcam();
-                webcam.SelectedVideoDevice = (EncoderDevice)cbxImageDevices.SelectedItem;
-                webcam.StartWebcam();
-                webcam.LiveDeviceSource.PreviewWindow =
-                new PreviewWindow(new HandleRef(WebcamPanel, WebcamPanel.Handle));
-                btnStart.IsEnabled = true;
-                btnSnapshot.IsEnabled = true;
-
-            }
-        }
         
-        private void btnSnapshot_Click(object sender, RoutedEventArgs e)
-        {
-            var md = new MediaDetails();
-            md.Owner = this;
-            md.ShowDialog();
-        }
 
         private void tabVisit_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -459,117 +440,15 @@ namespace PatientRecordsWPF2
 
             if ((TabItem)tabVisit.SelectedItem == tabitemPhotos)
             {
-                btnStart.IsEnabled = false;
-                btnStop.IsEnabled = false;
-                btnSnapshot.IsEnabled = false;
-
-                if (webcam == null)
-                {
-                    webcam = new WebCam(); 
-                    
-                    if (webcam.InitializeListVideoDevices() > 0)
-                    {
-                        cbxImageDevices.ItemsSource = null;
-                        cbxImageDevices.ItemsSource = webcam.VideoDevices;
-                        cbxImageDevices.DisplayMemberPath = "Name";
-                    }
-                }
-                
-
-            }
-            else
-            {
-                if (webcam != null)
-                    if (webcam.isConnected)
-                    {
-                        webcam.StopWebcam();
-                        cbxImageDevices.SelectedIndex = -1;
-                    }
             }
         }
 
-        private void btnStart_Click(object sender, RoutedEventArgs e)
+        private void btnCaptureNewMedia_Click(object sender, RoutedEventArgs e)
         {
-            if (webcam != null)
-                if (webcam.isConnected)
-                {
-                    webcam.StartRecording();
-                    btnStart.IsEnabled = false;
-                    btnStop.IsEnabled = true;
-                    btnSnapshot.IsEnabled = false;
-                }
-        }
-
-        private void btnStop_Click(object sender, RoutedEventArgs e)
-        {
-            if (webcam != null)
-                if (webcam.isRecording)
-                {
-                    webcam.StopRecording();
-                    btnStop.IsEnabled = false;
-                    btnStart.IsEnabled = true;
-                    btnSnapshot.IsEnabled = true;
-                }
+            var capture = new Capture((EncoderDevice)cbxVideoDevices.SelectedItem);
+            capture.Owner = this;
+            capture.ShowDialog();
         }
     }
 
-    public class WebCam
-    {
-        public List<EncoderDevice> VideoDevices {get; set;}
-        public LiveJob LiveJob { get; set; }
-        public LiveDeviceSource LiveDeviceSource { get; set; }
-        public EncoderDevice SelectedVideoDevice { get; set; }
-        public bool isConnected { get; set; }
-        public bool isRecording { get; set; }
-        public FileArchivePublishFormat FileArchivePublishFormat { get; set; }
-
-        public WebCam()
-        {
-            VideoDevices = new List<EncoderDevice>();
-            isConnected = false;
-        }
-        public int InitializeListVideoDevices()
-        {
-            int nb = 0;
-            foreach (EncoderDevice encoderDevice in EncoderDevices.FindDevices(EncoderDeviceType.Video))
-            {
-                VideoDevices.Add(encoderDevice);
-                nb++;
-            }
-            return nb;
-        }
-        public bool StartWebcam()
-        {
-            if (SelectedVideoDevice == null) return false;
-            LiveJob = null;
-            LiveJob = new LiveJob();
-            LiveDeviceSource = LiveJob.AddDeviceSource(SelectedVideoDevice, null);
-            //System.Drawing.Size framesize = new System.Drawing.Size(1280, 960);
-            //LiveDeviceSource.PickBestVideoFormat(framesize, 30);
-            //LiveJob.OutputFormat.VideoProfile.Size = framesize;
-            LiveJob.ActivateSource(LiveDeviceSource);
-            isConnected = true;
-            return true;
-        }
-        public void StopWebcam()
-        {
-            LiveJob.RemoveDeviceSource(LiveDeviceSource);
-            LiveDeviceSource = null;
-            isConnected = false;
-        }
-        public bool StartRecording()
-        {
-            FileArchivePublishFormat = new FileArchivePublishFormat();
-            FileArchivePublishFormat.OutputFileName = @"C:\Users\ManojKumar\Desktop\temp.wmv";
-            LiveJob.PublishFormats.Add(FileArchivePublishFormat);
-            LiveJob.StartEncoding();
-            isRecording = true;
-            return true;
-        }
-        public void StopRecording()
-        {
-            LiveJob.StopEncoding();
-            isRecording = false;
-        }
-    }
 }
