@@ -1,5 +1,6 @@
 ﻿using Microsoft.Expression.Encoder.Devices;
 using Microsoft.Expression.Encoder.Live;
+using Microsoft.Expression.Encoder.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,10 @@ namespace PatientRecordsWPF2
             LiveJob = null;
             LiveJob = new LiveJob();
             LiveDeviceSource = LiveJob.AddDeviceSource(SelectedVideoDevice, null);
-            //System.Drawing.Size framesize = new System.Drawing.Size(1280, 960);
-            //LiveDeviceSource.PickBestVideoFormat(framesize, 30);
-            //LiveJob.OutputFormat.VideoProfile.Size = framesize;
+            System.Drawing.Size framesize = new System.Drawing.Size(1280, 960);
+            LiveDeviceSource.PickBestVideoFormat(framesize, 30);
+            LiveJob.OutputFormat.VideoProfile.Size = framesize;
+            LiveJob.OutputFormat.VideoProfile.Bitrate = new ConstantBitrate(2000);
             LiveJob.ActivateSource(LiveDeviceSource);
             isConnected = true;
             return true;

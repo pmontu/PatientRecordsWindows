@@ -66,7 +66,6 @@ namespace PatientRecordsWPF2
         {
             try
             {
-                //WebcamPanel.Size = new System.Drawing.Size(1280, 960);
                 webcam.StartWebcam();
                 webcam.LiveDeviceSource.PreviewWindow =
                 new PreviewWindow(new HandleRef(WebcamPanel, WebcamPanel.Handle));
