@@ -69,7 +69,7 @@
                                 </Button.Style>
                             </Button>
                         </Grid>
-                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60" SourceUpdated="lbxSymptoms_SourceUpdated">
+                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60" ItemsSource="{Binding Path=TempVisitSymptoms, NotifyOnTargetUpdated=True}" SizeChanged="lbxSymptoms_SizeChanged" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -104,7 +104,7 @@
                                 </Button.Style>
                             </Button>
                         </Grid>
-                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60" SourceUpdated="lbxTags_SourceUpdated">
+                        <ListBox x:Name="lbxTags" Margin="12,2" Height="60" SizeChanged="lbxTags_SizeChanged">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -156,22 +156,32 @@
                             <TabItem.Header>
                                 Photos
                             </TabItem.Header>
-                            <ListBox x:Name="lstImages" Grid.Row="1" BorderBrush="{x:Null}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="Resources/a.jpg" Width="20" Height="20"  />
-                                    <TextBlock Text="throat" Margin="10,0,0,0" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="Resources/b.jpg" Width="20" Height="20"  />
-                                    <TextBlock Text="throat again" Margin="10,0,0,0" />
-                                </StackPanel>
+                            <ListBox x:Name="lbxImages" Grid.Row="1" BorderBrush="{x:Null}" >
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <Image Source="{Binding Path=Path}" Width="20" Height="20"  />
+                                            <TextBlock Text="{Binding Path=Title}" />
+                                            <Button x:Name="btnRemoveImage" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveImage_Click"  />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
                             </ListBox>
                         </TabItem>
                         <TabItem>
                             <TabItem.Header>
                                 Videos
                             </TabItem.Header>
-                            <GroupBox Header="GroupBox" Height="100" Width="100"/>
+                            <ListBox x:Name="lbxVideos" BorderBrush="{x:Null}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Path=Title}" />
+                                            <Button x:Name="btnRemoveVideo" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveVideo_Click"  />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </TabItem>
                     </TabControl>
                 </Grid>

@@ -82,6 +82,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\Media.cs" />
     <Compile Include="WebCam.cs" />
     <Page Include="Capture.xaml">
       <SubType>Designer</SubType>

@@ -16,6 +16,7 @@ using NHibernate;
 using Microsoft.Expression.Encoder.Devices;
 using Microsoft.Expression.Encoder.Live;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace PatientRecordsWPF2
 {
@@ -44,7 +45,9 @@ namespace PatientRecordsWPF2
         private Domain.Visit SelectedVisit;
         private List<Domain.Symptom> TempVisitSymptoms;
         private List<Domain.Tag> TempVisitTags;
-        private WebCam webcam;
+        private List<Domain.Medium> TempVisitMedia;
+        private MediaDetails md;
+        private Capture capture;
 
         public PatientVisits()
         {
@@ -111,6 +114,7 @@ namespace PatientRecordsWPF2
             mode = PatientVisits.Mode.update;
             btnCreateEditUpdateVisit.Content = "Update";
             btnCreateEditUpdateVisit.IsEnabled = false;
+            tabVisit.SelectedIndex = 0;
         }
 
         /* FRESH */
@@ -131,9 +135,14 @@ namespace PatientRecordsWPF2
             acbTreatment.Text = "";
             acbTag.Text = "";
             lbxTags.ItemsSource = null;
+            lbxImages.ItemsSource = null;
+            lbxVideos.ItemsSource = null;
 
             TempVisitSymptoms = new List<Domain.Symptom>();
             TempVisitTags = new List<Domain.Tag>();
+            TempVisitMedia = new List<Domain.Medium>();        
+
+            tabVisit.SelectedIndex = 0;
             
         }
 
@@ -224,6 +233,13 @@ namespace PatientRecordsWPF2
                     Visit.Tags.Add(tag);
                 }
             }
+            foreach (Domain.Medium med in TempVisitMedia)
+            {
+                if (med.Id == 0)
+                {
+                    Visit.AddMedium(med);
+                }
+            }
 
             List<Domain.Symptom> toberemovedSymptoms = new List<Domain.Symptom>();
             foreach (Domain.Symptom s in Visit.Symptoms)
@@ -269,6 +285,28 @@ namespace PatientRecordsWPF2
                 Visit.Tags.Remove(t);
             }
 
+            List<Domain.Medium> toberemovedMedia = new List<Domain.Medium>();
+            foreach (Domain.Medium m in Visit.Media)
+            {
+                bool isPresent = false;
+                foreach (Domain.Medium med in TempVisitMedia)
+                {
+                    if (m.Id == med.Id)
+                    {
+                        isPresent = true;
+                    }
+                }
+                if (!isPresent)
+                {
+                    toberemovedMedia.Add(m);
+                }
+            }
+            foreach (Domain.Medium m in toberemovedMedia)
+            {
+                m.Visit = null;
+                Visit.Media.Remove(m);
+            }
+
 
             // DB
             var session = ((App)Application.Current).session;
@@ -303,7 +341,7 @@ namespace PatientRecordsWPF2
                 {
                     CreateNewVisitComplete();
                 }
-                
+
                 SelectedVisit = (Domain.Visit)lbxVisits.SelectedItem;
 
                 acbReferredBy.Text = SelectedVisit.ReferredBy;
@@ -315,13 +353,16 @@ namespace PatientRecordsWPF2
                 acbTreatment.Text = SelectedVisit.Treatment;
 
                 TempVisitSymptoms = SelectedVisit.Symptoms.ToList();
-                TempVisitTags = SelectedVisit.Tags.ToList();
-
                 lbxSymptoms.ItemsSource = TempVisitSymptoms;
+                TempVisitTags = SelectedVisit.Tags.ToList();
                 lbxTags.ItemsSource = TempVisitTags;
+                TempVisitMedia = SelectedVisit.Media.ToList();
+                lbxVideos.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Video);
+                lbxImages.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Image);
+
                 acbSymptom.Text = "";
                 acbTag.Text = "";
-                
+
                 UpdateVisit();
 
             }
@@ -411,22 +452,12 @@ namespace PatientRecordsWPF2
             SomeChangeForUpdate();
         }
 
-        private void lbxSymptoms_SourceUpdated(object sender, DataTransferEventArgs e)
-        {
-            SomeChangeForUpdate();
-        }
-
         private void acbDiagnosis_TextChanged(object sender, RoutedEventArgs e)
         {
             SomeChangeForUpdate();
         }
 
         private void acbTreatment_TextChanged(object sender, RoutedEventArgs e)
-        {
-            SomeChangeForUpdate();
-        }
-
-        private void lbxTags_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             SomeChangeForUpdate();
         }
@@ -445,9 +476,57 @@ namespace PatientRecordsWPF2
 
         private void btnCaptureNewMedia_Click(object sender, RoutedEventArgs e)
         {
-            var capture = new Capture((EncoderDevice)cbxVideoDevices.SelectedItem);
+            capture = new Capture((EncoderDevice)cbxVideoDevices.SelectedItem);
             capture.Owner = this;
             capture.ShowDialog();
+        }
+
+        public void ShowMediaDetails(bool isVideo)
+        {
+            /* CLOSE THE CAPTURE WINDOW if VIDEO has been recorded
+             LEAVE IT OPEN for SNAPS, so more can be taken */
+            if(isVideo)
+                capture.Close();
+
+            md = new MediaDetails(isVideo);
+            md.Owner = this;
+            md.ShowDialog();
+        }
+        public void AddMedium(Domain.Medium medium)
+        {
+            md.Close();
+            TempVisitMedia.Add(medium);
+            lbxVideos.ItemsSource = null;
+            if (medium.Type == Domain.MediumType.Video)
+                lbxVideos.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Video);
+            else
+                lbxImages.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Image);
+            SomeChangeForUpdate();
+        }
+        private void btnRemoveVideo_Click(object sender, RoutedEventArgs e)
+        {
+            TempVisitMedia.Remove(((Domain.Medium)((Button)sender).DataContext));
+            lbxVideos.ItemsSource = null;
+            lbxVideos.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Video);
+            SomeChangeForUpdate();
+        }
+
+        private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
+        {
+            TempVisitMedia.Remove(((Domain.Medium)((Button)sender).DataContext));
+            lbxImages.ItemsSource = null;
+            lbxImages.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Image);
+            SomeChangeForUpdate();
+        }
+
+        private void lbxSymptoms_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SomeChangeForUpdate();
+        }
+
+        private void lbxTags_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SomeChangeForUpdate();
         }
     }
 

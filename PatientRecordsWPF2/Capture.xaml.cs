@@ -52,14 +52,12 @@ namespace PatientRecordsWPF2
                 btnStop.IsEnabled = false;
                 btnStart.IsEnabled = true;
                 btnSnapshot.IsEnabled = true;
+                ((PatientVisits)this.Owner).ShowMediaDetails(true);
             }
         }
 
         private void btnSnapshot_Click(object sender, RoutedEventArgs e)
         {
-            var md = new MediaDetails();
-            md.Owner = this;
-            md.ShowDialog();
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)

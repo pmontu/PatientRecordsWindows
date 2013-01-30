@@ -19,11 +19,19 @@ namespace PatientRecordsWPF2.Domain
         public virtual string Diagnosis { get; set; }
         public virtual string Treatment { get; set; }
         public virtual IList<Tag> Tags { get; set; }
+        public virtual IList<Medium> Media { get; set; }
+
+        public virtual void AddMedium(Medium Medium)
+        {
+            Medium.Visit = this;
+            Media.Add(Medium);
+        }
 
         public Visit()
         {
             Symptoms = new List<Symptom>();
             Tags = new List<Tag>();
+            Media = new List<Medium>();
         }
     }
 
@@ -43,6 +51,9 @@ namespace PatientRecordsWPF2.Domain
             Map(x => x.Diagnosis).Nullable();
             Map(x => x.Treatment).Nullable();
             HasMany(x => x.Tags)
+             .Inverse()
+             .Cascade.AllDeleteOrphan();
+            HasMany(x => x.Media)
              .Inverse()
              .Cascade.AllDeleteOrphan();
         }

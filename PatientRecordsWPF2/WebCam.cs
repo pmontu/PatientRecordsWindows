@@ -3,6 +3,7 @@ using Microsoft.Expression.Encoder.Live;
 using Microsoft.Expression.Encoder.Profiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,8 +57,8 @@ namespace PatientRecordsWPF2
         }
         public bool StartRecording()
         {
-            FileArchivePublishFormat = new FileArchivePublishFormat();
-            FileArchivePublishFormat.OutputFileName = @"C:\Users\ManojKumar\Desktop\temp.wmv";
+
+            FileArchivePublishFormat = new FileArchivePublishFormat(Directory.GetCurrentDirectory() + "\\medi.um");
             LiveJob.PublishFormats.Add(FileArchivePublishFormat);
             LiveJob.StartEncoding();
             isRecording = true;
