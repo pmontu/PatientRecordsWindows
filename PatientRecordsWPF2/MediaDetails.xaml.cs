@@ -21,6 +21,8 @@ namespace PatientRecordsWPF2
     public partial class MediaDetails : Window
     {
         private bool isVideo;
+        private bool isNew;
+        private Domain.Medium Medium;
 
         public MediaDetails()
         {
@@ -30,21 +32,47 @@ namespace PatientRecordsWPF2
             : this()
         {
             this.isVideo = isVideo;
+            isNew = true;
+        }
+        public MediaDetails(Domain.Medium Medium)
+            : this()
+        {
+            this.Medium = Medium;
+            txtName.Text = Medium.Title;
+            txtDescription.Text = Medium.Description;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            string filename = DateTime.Now.ToString("yyyyMMMdd-HHmmss-ddd") + ".medium";
-            File.Move(Directory.GetCurrentDirectory() + "\\medi.um", Directory.GetCurrentDirectory() + "\\Media\\" + filename);
+            /* encapsulate details into Domain.Medium */
+            string filename = "Media\\" + DateTime.Now.ToString("yyyyMMMdd-HHmmss-ddd");
 
-            Domain.Medium medium = new Domain.Medium();
+            Domain.Medium medium;
+            if (isNew)
+            {
+                medium = new Domain.Medium();
+                if (isVideo)
+                {
+                    medium.Type = Domain.MediumType.Video;
+                    filename += ".wmv";
+                }
+                else
+                {
+                    medium.Type = Domain.MediumType.Image;
+                    filename += ".jpg";
+                }
+
+                medium.Path = filename;
+            }
+            else
+                medium = Medium;
+
+            File.Move(Directory.GetCurrentDirectory() + "\\medi.um", Directory.GetCurrentDirectory() + "\\" + filename);
+
             medium.Title = txtName.Text;
             medium.Description = txtDescription.Text;
-            medium.Path = filename;
-            if (isVideo)
-                medium.Type = Domain.MediumType.Video;
-            else
-                medium.Type = Domain.MediumType.Image;
+
+            /* communicate with patientVisit to add medium to TempVisitMedium*/
             ((PatientVisits)this.Owner).AddMedium(medium);
         }
 

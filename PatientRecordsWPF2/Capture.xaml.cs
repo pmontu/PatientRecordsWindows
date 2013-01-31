@@ -2,6 +2,9 @@
 using Microsoft.Expression.Encoder.Live;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -58,6 +61,25 @@ namespace PatientRecordsWPF2
 
         private void btnSnapshot_Click(object sender, RoutedEventArgs e)
         {
+            // Create the bitmap image
+            Bitmap bitmap = new Bitmap(WebcamPanel.Width, WebcamPanel.Height);
+            // Create the graphics object that will copy from the screen into the bitmap image
+            Graphics graphics = Graphics.FromImage(bitmap);
+            // Create a rectangle egal to the size of the previewVideoPanel
+            System.Drawing.Rectangle rectangleVideoPreview = WebcamPanel.Bounds;
+            // Create a point egal to the origin location (upper left point) of the previewVideoPanel
+            System.Drawing.Point sourcesPoint =
+                WebcamPanel.PointToScreen(new System.Drawing.Point(WebcamPanel.ClientRectangle.X,
+                                                     WebcamPanel.ClientRectangle.Y));
+            // Copy the content of this rectangle into the bitmap image using the object graphics
+            graphics.CopyFromScreen(sourcesPoint, System.Drawing.Point.Empty, rectangleVideoPreview.Size);
+            // Define the path for save the file
+            String completeImagePath = Directory.GetCurrentDirectory() + "\\medi.um";
+            // Save the image 
+            bitmap.Save(completeImagePath, ImageFormat.Jpeg);
+            
+            /* communicate to PatientVisits to show next window - collect details of image */
+            ((PatientVisits)this.Owner).ShowMediaDetails(false);
         }
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
@@ -67,6 +89,7 @@ namespace PatientRecordsWPF2
                 webcam.StartWebcam();
                 webcam.LiveDeviceSource.PreviewWindow =
                 new PreviewWindow(new HandleRef(WebcamPanel, WebcamPanel.Handle));
+                
                 btnStart.IsEnabled = true;
                 btnSnapshot.IsEnabled = true;
             }

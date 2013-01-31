@@ -3,7 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="wVisit" x:Class="PatientRecordsWPF2.PatientVisits"
+        xmlns:local="clr-namespace:PatientRecordsWPF2"
         Title="Patient Records" Height="635" Width="641" Loaded="wVisit_Loaded">
+    <Window.Resources>
+        <local:ImageConverter x:Key="ImageConverter" />
+    </Window.Resources>
     <Grid Margin="10,0,10,10">
         <Grid.Background>
             <ImageBrush />
@@ -69,7 +73,7 @@
                                 </Button.Style>
                             </Button>
                         </Grid>
-                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60" ItemsSource="{Binding Path=TempVisitSymptoms, NotifyOnTargetUpdated=True}" SizeChanged="lbxSymptoms_SizeChanged" >
+                        <ListBox x:Name="lbxSymptoms" Margin="12,2" Height="60" SizeChanged="lbxSymptoms_SizeChanged" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -152,18 +156,25 @@
                         </Grid>                        
                     </GroupBox>
                     <TabControl Grid.Row="1" Margin="10,10,0,0">
-                        <TabItem>
+                        <TabItem x:Name="tabitemPhotos1" MouseDoubleClick="tabitemPhotos_MouseDoubleClick">
                             <TabItem.Header>
                                 Photos
                             </TabItem.Header>
                             <ListBox x:Name="lbxImages" Grid.Row="1" BorderBrush="{x:Null}" >
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel>
-                                            <Image Source="{Binding Path=Path}" Width="20" Height="20"  />
-                                            <TextBlock Text="{Binding Path=Title}" />
-                                            <Button x:Name="btnRemoveImage" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveImage_Click"  />
-                                        </StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="imgThumnail" Source="{Binding Path=Path, Converter={StaticResource ImageConverter}}" Width="30" Height="30" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="2,0,0,0" />
+                                            <Button Grid.Column="2" x:Name="btnRemoveImage" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveImage_Click" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center"  />
+                                            <Button Grid.Column="3" x:Name="btnOpenImage" Style="{StaticResource LinkButton}" Content="!>" HorizontalAlignment="Right" Margin="5,0,0,0" Click="btnOpenImage_Click" VerticalAlignment="Center"  />
+                                        </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>

@@ -17,6 +17,8 @@ using Microsoft.Expression.Encoder.Devices;
 using Microsoft.Expression.Encoder.Live;
 using System.Runtime.InteropServices;
 using System.IO;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace PatientRecordsWPF2
 {
@@ -528,6 +530,41 @@ namespace PatientRecordsWPF2
         {
             SomeChangeForUpdate();
         }
-    }
 
+        private void tabitemPhotos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (lbxImages.SelectedIndex != -1)
+            {
+                md = new MediaDetails((Domain.Medium)lbxImages.SelectedItem);
+                md.Owner = this;
+                md.ShowDialog();
+            }
+        }
+
+        private void btnOpenImage_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
+        }
+
+    }
+    public sealed class ImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            try
+            {
+                return new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\" + (string)value));
+            }
+            catch
+            {
+                return new BitmapImage();
+            }
+        }
+        public object ConvertBack(object value, Type targetType,
+                             object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

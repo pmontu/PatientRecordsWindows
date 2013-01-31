@@ -19,7 +19,7 @@
             <Button Grid.Column="1" x:Name="btnStop" Content="Stop" Margin="10,0,0,0" Padding="5" Click="btnStop_Click" IsEnabled="False" />
             <Button Grid.Column="2" x:Name="btnSnapshot" Content="Grab" Margin="10,0,0,0" Padding="5" Click="btnSnapshot_Click" IsEnabled="False"/>
         </Grid>
-        <WindowsFormsHost Grid.Row="1" Margin="10,10,0,0" Name="WinFormHost" Background="{x:Null}" Width="1280" Height="960" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <WindowsFormsHost Grid.Row="1" Margin="10,10,0,0" Name="WinFormHost" Background="{x:Null}" Width="320" Height="240" HorizontalAlignment="Left" VerticalAlignment="Top">
             <wf:Panel x:Name="WebcamPanel"  />
         </WindowsFormsHost>
     </Grid>
