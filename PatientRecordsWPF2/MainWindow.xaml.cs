@@ -50,10 +50,15 @@ namespace PatientRecordsWPF2
             var pd = new PatientDetails();
             pd.Owner = this;
             pd.ShowDialog();
+            load();
         }
 
         /* PAGE INIT */
         private void wSearch_Loaded(object sender, RoutedEventArgs e)
+        {
+            load();
+        }
+        private void load()
         {
             var session = ((App)Application.Current).session;
 
@@ -63,7 +68,6 @@ namespace PatientRecordsWPF2
 
             /* keyboard focus on search filter textbox */
             Keyboard.Focus(txtSearchFilter);   
-
         }
         
         /* SEARCH FILTER */

@@ -27,6 +27,11 @@ namespace PatientRecordsWPF2.Domain
         public virtual string Email { get; set; }
         public virtual IList<Visit> Visits { get; set; }
 
+        public Patient()
+        {
+            Visits = new List<Visit>();
+        }
+
         public virtual void AddVisit(Visit visit)
         {
             visit.Patient = this;
