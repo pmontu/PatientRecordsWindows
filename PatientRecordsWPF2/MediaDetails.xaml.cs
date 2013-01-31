@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,12 @@ namespace PatientRecordsWPF2
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            if (txtName.Text == "")
+            {
+                MessageBox.Show("Please enter a title");
+                return;
+            }
+
             /* encapsulate details into Domain.Medium */
             string filename = "Media\\" + DateTime.Now.ToString("yyyyMMMdd-HHmmss-ddd");
 
@@ -69,6 +76,13 @@ namespace PatientRecordsWPF2
 
             File.Move(Directory.GetCurrentDirectory() + "\\medi.um", Directory.GetCurrentDirectory() + "\\" + filename);
 
+            //if isVideo and isNew
+            if (isVideo)
+            {
+                var cmd = Directory.GetCurrentDirectory() + @"ffmpeg.exe -itsoffset 1 -i " + Directory.GetCurrentDirectory() + @"\" + filename + @" -vcodec mjpeg -vframes 1 -an -f rawvideo -s 30x30 -y " + Directory.GetCurrentDirectory() + @"\" + filename + @"-thumbnail.jpg";
+                Process.Start("CMD.exe","/c "+cmd);
+            }
+
             medium.Title = txtName.Text;
             medium.Description = txtDescription.Text;
 
@@ -78,7 +92,6 @@ namespace PatientRecordsWPF2
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
-            txtName.Text = DateTime.Now.ToString("yyyyMMMdd-HHmmss-ddd");
         }
     }
 }

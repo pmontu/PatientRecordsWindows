@@ -4,7 +4,7 @@
         xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="wVisit" x:Class="PatientRecordsWPF2.PatientVisits"
         xmlns:local="clr-namespace:PatientRecordsWPF2"
-        Title="Patient Records" Height="635" Width="641" Loaded="wVisit_Loaded" Closing="wVisit_Closing">
+        Title="Patient Records" Height="635" Width="641" Loaded="wVisit_Loaded">
     <Window.Resources>
         <local:ImageConverter x:Key="ImageConverter" />
     </Window.Resources>
@@ -186,10 +186,18 @@
                             <ListBox x:Name="lbxVideos" BorderBrush="{x:Null}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Path=Title}" />
-                                            <Button x:Name="btnRemoveVideo" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveVideo_Click"  />
-                                        </StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image x:Name="imgVideoThumnail" Source="{Binding Path=Path, Converter={StaticResource ImageConverter}}" Width="30" Height="30" />
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=Title}" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                                            <Button Grid.Column="2" x:Name="btnRemoveVideo" Style="{StaticResource LinkButton}" Content="x" Click="btnRemoveVideo_Click"  HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" />
+                                            <Button Grid.Column="3" x:Name="btnOpenVideo" Style="{StaticResource LinkButton}" Content="!>" HorizontalAlignment="Right" Margin="5,0,0,0" VerticalAlignment="Center" Click="btnOpenVideo_Click"  />                                            
+                                        </Grid>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>

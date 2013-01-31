@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Globalization;
 using System.Diagnostics;
+using Microsoft.Expression.Encoder;
 
 namespace PatientRecordsWPF2
 {
@@ -127,9 +128,7 @@ namespace PatientRecordsWPF2
             btnAddNewVisit.Visibility = System.Windows.Visibility.Hidden;
             mode = PatientVisits.Mode.create;
             btnCreateEditUpdateVisit.Content = "Create";
-
-            //AsignCleanup();
-
+            
             acbReferredBy.Text = "";
             acbDoctors_Email.Text = "";
             acbDoctor.Text = "";
@@ -148,9 +147,6 @@ namespace PatientRecordsWPF2
             TempVisitMedia = new List<Domain.Medium>();        
 
             tabVisit.SelectedIndex = 0;
-
-            //CleanupTempVisitMedia();
-            
         }
 
         private void CreateNewVisitComplete()
@@ -359,8 +355,6 @@ namespace PatientRecordsWPF2
                 acbDiagnosis.Text = SelectedVisit.Diagnosis;
                 acbTreatment.Text = SelectedVisit.Treatment;
 
-                //AsignCleanup();
-
                 TempVisitSymptoms = SelectedVisit.Symptoms.ToList();
                 lbxSymptoms.ItemsSource = TempVisitSymptoms;
                 TempVisitTags = SelectedVisit.Tags.ToList();
@@ -373,9 +367,6 @@ namespace PatientRecordsWPF2
                 acbTag.Text = "";
 
                 UpdateVisit();
-
-                //CleanupTempVisitMedia();
-
 
             }
         }
@@ -556,41 +547,10 @@ namespace PatientRecordsWPF2
             Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
         }
 
-        private void wVisit_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void btnOpenVideo_Click(object sender, RoutedEventArgs e)
         {
-            /*AsignCleanup();
-            CleanupTempVisitMedia();*/
+            Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
         }
-
-        /*private void AsignCleanup()
-        {
-            CleanupMedia = new List<string>();
-            if (TempVisitMedia != null)
-            {
-                foreach (Domain.Medium med in TempVisitMedia)
-                {
-                    if (med.Id == 0)
-                        CleanupMedia.Add(med.Path);
-                }
-            }
-        }
-        private void CleanupTempVisitMedia()
-        {
-            Trace.WriteLine("Cleanup Initiated");
-            if (CleanupMedia != null)
-            {
-                foreach (string Path in CleanupMedia)
-                {
-                    string path = Directory.GetCurrentDirectory() + "\\" + Path;
-                    if (File.Exists(path))
-                    {
-                        File.Delete(path);
-                        Trace.WriteLine("deleted: " + path);
-                    }
-                }
-            }
-            Trace.WriteLine("Cleanup Ended");
-        }*/
 
     }
     public sealed class ImageConverter : IValueConverter
@@ -600,7 +560,12 @@ namespace PatientRecordsWPF2
         {
             try
             {
-                return new BitmapImage(new Uri(Directory.GetCurrentDirectory() + "\\" + (string)value));
+                var path = Directory.GetCurrentDirectory() + "\\" + (string)value;
+                if (value.ToString().Contains(".wmv"))
+                {
+                    path += "-thumbnail.jpg";
+                }
+                return new BitmapImage(new Uri(path));
             }
             catch
             {
