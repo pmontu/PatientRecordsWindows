@@ -48,6 +48,7 @@ namespace PatientRecordsWPF2
         private List<Domain.Symptom> TempVisitSymptoms;
         private List<Domain.Tag> TempVisitTags;
         private List<Domain.Medium> TempVisitMedia;
+        private List<String> CleanupMedia;
         private MediaDetails md;
         private Capture capture;
 
@@ -127,6 +128,8 @@ namespace PatientRecordsWPF2
             mode = PatientVisits.Mode.create;
             btnCreateEditUpdateVisit.Content = "Create";
 
+            //AsignCleanup();
+
             acbReferredBy.Text = "";
             acbDoctors_Email.Text = "";
             acbDoctor.Text = "";
@@ -145,6 +148,8 @@ namespace PatientRecordsWPF2
             TempVisitMedia = new List<Domain.Medium>();        
 
             tabVisit.SelectedIndex = 0;
+
+            //CleanupTempVisitMedia();
             
         }
 
@@ -354,6 +359,8 @@ namespace PatientRecordsWPF2
                 acbDiagnosis.Text = SelectedVisit.Diagnosis;
                 acbTreatment.Text = SelectedVisit.Treatment;
 
+                //AsignCleanup();
+
                 TempVisitSymptoms = SelectedVisit.Symptoms.ToList();
                 lbxSymptoms.ItemsSource = TempVisitSymptoms;
                 TempVisitTags = SelectedVisit.Tags.ToList();
@@ -366,6 +373,9 @@ namespace PatientRecordsWPF2
                 acbTag.Text = "";
 
                 UpdateVisit();
+
+                //CleanupTempVisitMedia();
+
 
             }
         }
@@ -545,6 +555,42 @@ namespace PatientRecordsWPF2
         {
             Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
         }
+
+        private void wVisit_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            /*AsignCleanup();
+            CleanupTempVisitMedia();*/
+        }
+
+        /*private void AsignCleanup()
+        {
+            CleanupMedia = new List<string>();
+            if (TempVisitMedia != null)
+            {
+                foreach (Domain.Medium med in TempVisitMedia)
+                {
+                    if (med.Id == 0)
+                        CleanupMedia.Add(med.Path);
+                }
+            }
+        }
+        private void CleanupTempVisitMedia()
+        {
+            Trace.WriteLine("Cleanup Initiated");
+            if (CleanupMedia != null)
+            {
+                foreach (string Path in CleanupMedia)
+                {
+                    string path = Directory.GetCurrentDirectory() + "\\" + Path;
+                    if (File.Exists(path))
+                    {
+                        File.Delete(path);
+                        Trace.WriteLine("deleted: " + path);
+                    }
+                }
+            }
+            Trace.WriteLine("Cleanup Ended");
+        }*/
 
     }
     public sealed class ImageConverter : IValueConverter
