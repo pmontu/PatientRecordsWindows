@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SQLite;
+using NHibernate.Criterion;
+using System.IO;
 
 namespace PatientRecordsWPF2
 {
@@ -22,9 +24,13 @@ namespace PatientRecordsWPF2
     /// </summary>
     public partial class MainWindow : Window
     {
+        public ISession session { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            
+            session = ((App)Application.Current).session;
         }
 
         /* VIEW PATIENT VISITS */
@@ -58,10 +64,46 @@ namespace PatientRecordsWPF2
         {
             load();
         }
+
+        private void cleanup()
+        {
+            /* Paths of media saved on db */
+            List<String> existingmediapaths = session.CreateCriteria<Domain.Medium>()
+                .SetProjection(Projections.Property("Path"))
+                .List<string>().Select(p => p.Replace(@"Media\","")).ToList();
+            /* files in directory */
+            List<String> existingfiles = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\Media")
+                .Select(path => System.IO.Path.GetFileName(path))
+                .ToList();
+            /* removing thumnails from list */
+            existingfiles.RemoveAll(path => path.Contains(@"-thumbnail.jpg"));
+            /* optimisation */
+            existingfiles.Sort();
+            existingmediapaths.Sort();
+            /* search for files not in db */
+            foreach (string e in existingfiles)
+            {
+                bool isFilePresentInDB = false;
+                foreach (string p in existingmediapaths)
+                {
+                    if (string.Compare(e, p) < 0)
+                        break;
+                    else if (e == p)
+                        isFilePresentInDB = true;                    
+                }
+                if (!isFilePresentInDB)
+                {
+                    if(e.Contains(".wmv"))
+                    {
+                        File.Delete(Directory.GetCurrentDirectory() + @"\Media\" + e + @"-thumbnail.jpg");
+                    }
+                    File.Delete(Directory.GetCurrentDirectory() + @"\Media\" + e);
+                }
+            }
+        }
+
         private void load()
         {
-            var session = ((App)Application.Current).session;
-
             var patients = session.CreateCriteria<Domain.Patient>().List<Domain.Patient>();
 
             lbxPatients.ItemsSource = patients;
@@ -87,6 +129,12 @@ namespace PatientRecordsWPF2
         {
             ViewPatientVisits();
         }
+
+        private void wSearch_Closed(object sender, EventArgs e)
+        {
+            cleanup();
+        }
+
 
     }
 }

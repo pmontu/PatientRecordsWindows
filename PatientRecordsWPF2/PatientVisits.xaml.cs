@@ -552,6 +552,12 @@ namespace PatientRecordsWPF2
             Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
         }
 
+        private void wVisit_Closed(object sender, EventArgs e)
+        {
+            lbxImages.ItemsSource = null;
+            lbxVideos.ItemsSource = null;
+        }
+
     }
     public sealed class ImageConverter : IValueConverter
     {
