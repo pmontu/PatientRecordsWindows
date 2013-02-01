@@ -49,13 +49,14 @@ namespace PatientRecordsWPF2
         private List<Domain.Symptom> TempVisitSymptoms;
         private List<Domain.Tag> TempVisitTags;
         private List<Domain.Medium> TempVisitMedia;
-        private List<String> CleanupMedia;
+        public List<String> CleanupMedia { get; set; }
         private MediaDetails md;
         private Capture capture;
 
         public PatientVisits()
         {
             InitializeComponent();
+            CleanupMedia = new List<string>();
         }
         public PatientVisits(Domain.Patient Patient) : this()
         {
@@ -124,6 +125,14 @@ namespace PatientRecordsWPF2
         /* FRESH */
         private void CreateNewVisit()
         {
+            /* add files to be deleted if not commited
+             * both commited and uncommited files are
+             * saved on TempVisitMedia object 
+             * with id=0 */
+            if(TempVisitMedia!=null)
+                CleanupMedia.AddRange(TempVisitMedia.FindAll(m => m.Id == 0).Select(m => m.Path));
+
+
             /* HIDING add new visit button */
             btnAddNewVisit.Visibility = System.Windows.Visibility.Hidden;
             mode = PatientVisits.Mode.create;
@@ -318,6 +327,11 @@ namespace PatientRecordsWPF2
             {
                 session.SaveOrUpdate(Visit);
                 transaction.Commit();
+
+                /* removed media from visit
+                 * files also need to be deleted
+                 * apart from db change */
+                CleanupMedia.AddRange(toberemovedMedia.Select(m => m.Path));
             }
 
             if (mode == Mode.create)
@@ -344,6 +358,8 @@ namespace PatientRecordsWPF2
                 {
                     CreateNewVisitComplete();
                 }
+                if(TempVisitMedia!=null)
+                    CleanupMedia.AddRange(TempVisitMedia.FindAll(m => m.Id == 0).Select(m => m.Path));
 
                 SelectedVisit = (Domain.Visit)lbxVisits.SelectedItem;
 
@@ -508,7 +524,10 @@ namespace PatientRecordsWPF2
         }
         private void btnRemoveVideo_Click(object sender, RoutedEventArgs e)
         {
-            TempVisitMedia.Remove(((Domain.Medium)((Button)sender).DataContext));
+            var item = ((Domain.Medium)((Button)sender).DataContext);
+            TempVisitMedia.Remove(item);
+            if (item.Id == 0)
+                CleanupMedia.Add(item.Path);
             lbxVideos.ItemsSource = null;
             lbxVideos.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Video);
             SomeChangeForUpdate();
@@ -516,7 +535,10 @@ namespace PatientRecordsWPF2
 
         private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
         {
-            TempVisitMedia.Remove(((Domain.Medium)((Button)sender).DataContext));
+            var item = ((Domain.Medium)((Button)sender).DataContext);
+            TempVisitMedia.Remove(item);
+            if (item.Id == 0)
+                CleanupMedia.Add(item.Path);
             lbxImages.ItemsSource = null;
             lbxImages.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Image);
             SomeChangeForUpdate();
@@ -551,9 +573,19 @@ namespace PatientRecordsWPF2
         {
             Process.Start(Directory.GetCurrentDirectory() + "\\" + (((Domain.Medium)((Button)sender).DataContext)).Path);
         }
-
-        private void wVisit_Closed(object sender, EventArgs e)
+        
+        private void wVisit_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            /* there are 4 entry points to capture 
+             * files to be deleted 
+             * 1.when new visit is added, an earlier visit either uncreated or during edit might have created files
+             * 2.when a visit it changed, an earlier visit either uncreated or during edit might have created files
+             * 3.when files are removed and commited
+             * 4.when window closes during 
+             * 5.for any other exit condition, looks like this data must be on persistant storage */
+            if(TempVisitMedia!=null)
+                CleanupMedia.AddRange(TempVisitMedia.FindAll(m => m.Id == 0).Select(m => m.Path));
+
             lbxImages.ItemsSource = null;
             lbxVideos.ItemsSource = null;
         }

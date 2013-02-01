@@ -25,6 +25,7 @@ namespace PatientRecordsWPF2
     public partial class MainWindow : Window
     {
         public ISession session { get; set; }
+        private List<String> CleanupMedia;
 
         public MainWindow()
         {
@@ -47,6 +48,7 @@ namespace PatientRecordsWPF2
                 var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
                 pv.Owner = this;
                 pv.ShowDialog();
+                this.CleanupMedia = pv.CleanupMedia.Select(m => (string)m.Clone()).ToList();
             }
         }
 
@@ -63,43 +65,6 @@ namespace PatientRecordsWPF2
         private void wSearch_Loaded(object sender, RoutedEventArgs e)
         {
             load();
-        }
-
-        private void cleanup()
-        {
-            /* Paths of media saved on db */
-            List<String> existingmediapaths = session.CreateCriteria<Domain.Medium>()
-                .SetProjection(Projections.Property("Path"))
-                .List<string>().Select(p => p.Replace(@"Media\","")).ToList();
-            /* files in directory */
-            List<String> existingfiles = Directory.GetFiles(Directory.GetCurrentDirectory() + @"\Media")
-                .Select(path => System.IO.Path.GetFileName(path))
-                .ToList();
-            /* removing thumnails from list */
-            existingfiles.RemoveAll(path => path.Contains(@"-thumbnail.jpg"));
-            /* optimisation */
-            existingfiles.Sort();
-            existingmediapaths.Sort();
-            /* search for files not in db */
-            foreach (string e in existingfiles)
-            {
-                bool isFilePresentInDB = false;
-                foreach (string p in existingmediapaths)
-                {
-                    if (string.Compare(e, p) < 0)
-                        break;
-                    else if (e == p)
-                        isFilePresentInDB = true;                    
-                }
-                if (!isFilePresentInDB)
-                {
-                    if(e.Contains(".wmv"))
-                    {
-                        File.Delete(Directory.GetCurrentDirectory() + @"\Media\" + e + @"-thumbnail.jpg");
-                    }
-                    File.Delete(Directory.GetCurrentDirectory() + @"\Media\" + e);
-                }
-            }
         }
 
         private void load()
@@ -130,11 +95,26 @@ namespace PatientRecordsWPF2
             ViewPatientVisits();
         }
 
-        private void wSearch_Closed(object sender, EventArgs e)
+
+        internal void cleanup()
+        {
+            foreach (string p in CleanupMedia)
+            {
+                string f = Directory.GetCurrentDirectory() + @"\" + p;
+                if (p.Contains(".wmv"))
+                {
+                    f += @"-thumbnail.jpg";
+                    if (File.Exists(f))
+                        File.Delete(f);
+                }
+                if (File.Exists(f))
+                    File.Delete(f);
+            }
+        }
+
+        private void wSearch_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             cleanup();
         }
-
-
     }
 }
