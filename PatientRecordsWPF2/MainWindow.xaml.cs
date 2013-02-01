@@ -25,7 +25,6 @@ namespace PatientRecordsWPF2
     public partial class MainWindow : Window
     {
         public ISession session { get; set; }
-        private List<String> CleanupMedia;
 
         public MainWindow()
         {
@@ -48,7 +47,6 @@ namespace PatientRecordsWPF2
                 var pv = new PatientVisits((Domain.Patient)lbxPatients.SelectedItem);
                 pv.Owner = this;
                 pv.ShowDialog();
-                this.CleanupMedia = pv.CleanupMedia.Select(m => (string)m.Clone()).ToList();
             }
         }
 
@@ -98,17 +96,44 @@ namespace PatientRecordsWPF2
 
         internal void cleanup()
         {
-            foreach (string p in CleanupMedia)
+            var CleanupMedia = session.CreateCriteria<Domain.Cleanup>().List();
+            bool isFileDeleted;
+            foreach (Domain.Cleanup c in CleanupMedia)
             {
+                var p = c.Path;
+                isFileDeleted = true;
                 string f = Directory.GetCurrentDirectory() + @"\" + p;
                 if (p.Contains(".wmv"))
                 {
-                    f += @"-thumbnail.jpg";
-                    if (File.Exists(f))
-                        File.Delete(f);
+                    var t = f + @"-thumbnail.jpg";
+                    if (File.Exists(t))
+                    {
+                        try
+                        {
+                            File.Delete(t);
+                        }
+                        catch
+                        {
+                            isFileDeleted = false;
+                        }
+                    }
                 }
                 if (File.Exists(f))
-                    File.Delete(f);
+                {
+                    try
+                    {
+                        File.Delete(f);
+                    }
+                    catch
+                    {
+                        isFileDeleted = false;
+                    }
+                }
+                if (isFileDeleted)
+                {
+                    session.Delete(c);
+                    session.Flush();
+                }
             }
         }
 

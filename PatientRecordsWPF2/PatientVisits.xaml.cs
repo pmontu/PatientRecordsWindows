@@ -141,7 +141,7 @@ namespace PatientRecordsWPF2
             acbReferredBy.Text = "";
             acbDoctors_Email.Text = "";
             acbDoctor.Text = "";
-            dtDate_of_Examination.Text = "";
+            dtDate_of_Examination.Text = DateTime.Now.ToShortDateString();
             acbSymptom.Text = "";
             lbxSymptoms.ItemsSource = null;
             acbDiagnosis.Text = "";
@@ -502,11 +502,6 @@ namespace PatientRecordsWPF2
 
         public void ShowMediaDetails(bool isVideo)
         {
-            /* CLOSE THE CAPTURE WINDOW if VIDEO has been recorded
-             LEAVE IT OPEN for SNAPS, so more can be taken */
-            if(isVideo)
-                capture.Close();
-
             md = new MediaDetails(isVideo);
             md.Owner = this;
             md.ShowDialog();
@@ -517,9 +512,15 @@ namespace PatientRecordsWPF2
             TempVisitMedia.Add(medium);
             lbxVideos.ItemsSource = null;
             if (medium.Type == Domain.MediumType.Video)
+            {
                 lbxVideos.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Video);
+                tabMedia.SelectedIndex = 1;
+            }
             else
+            {
                 lbxImages.ItemsSource = TempVisitMedia.FindAll(n => n.Type == Domain.MediumType.Image);
+                tabMedia.SelectedIndex = 0;
+            }
             SomeChangeForUpdate();
         }
         private void btnRemoveVideo_Click(object sender, RoutedEventArgs e)
@@ -576,6 +577,8 @@ namespace PatientRecordsWPF2
         
         private void wVisit_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            var session = ((App)Application.Current).session;
+
             /* there are 4 entry points to capture 
              * files to be deleted 
              * 1.when new visit is added, an earlier visit either uncreated or during edit might have created files
@@ -585,6 +588,13 @@ namespace PatientRecordsWPF2
              * 5.for any other exit condition, looks like this data must be on persistant storage */
             if(TempVisitMedia!=null)
                 CleanupMedia.AddRange(TempVisitMedia.FindAll(m => m.Id == 0).Select(m => m.Path));
+
+            foreach (string p in CleanupMedia)
+            {
+                Domain.Cleanup c = new Domain.Cleanup();
+                c.Path = p;
+                session.SaveOrUpdate(c);
+            }
 
             lbxImages.ItemsSource = null;
             lbxVideos.ItemsSource = null;

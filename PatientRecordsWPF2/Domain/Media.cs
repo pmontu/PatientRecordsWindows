@@ -20,17 +20,6 @@ namespace PatientRecordsWPF2.Domain
         public virtual string Title { get; set; }
         public virtual string Description { get; set; }
         public virtual string Path { get; set; }
-        public virtual IList<MTag> Tags { get; set; }
-
-        public Medium()
-        {
-            Tags = new List<MTag>();
-        }
-        public virtual void AddMTag(MTag MTag)
-        {
-            MTag.Medium = this;
-            Tags.Add(MTag);
-        }
     }
 
     public class MediumMap : ClassMap<Medium>
@@ -43,24 +32,21 @@ namespace PatientRecordsWPF2.Domain
             Map(x => x.Title).Nullable();
             Map(x => x.Description).Nullable();
             Map(x => x.Path).Not.Nullable();
-            HasMany(x => x.Tags)
-             .Inverse()
-             .Cascade.AllDeleteOrphan();
         }
     }
-    public class MTag
+
+    public class Cleanup
     {
         public virtual int Id { get; set; }
-        public virtual Medium Medium { get; set; }
-        public virtual string Name { get; set; }
+        public virtual string Path { get; set; }
     }
-    public class MTagMap : ClassMap<MTag>
+
+    public class CleanupMap : ClassMap<Cleanup>
     {
-        public MTagMap()
+        public CleanupMap()
         {
             Id(x => x.Id);
-            Map(x => x.Name).Not.Nullable();
-            References(x => x.Medium);
+            Map(x => x.Path).Not.Nullable();
         }
     }
 }

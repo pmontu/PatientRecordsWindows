@@ -155,7 +155,7 @@
                             </Button>
                         </Grid>                        
                     </GroupBox>
-                    <TabControl Grid.Row="1" Margin="10,10,0,0">
+                    <TabControl x:Name="tabMedia" Grid.Row="1" Margin="10,10,0,0">
                         <TabItem x:Name="tabitemPhotos1" MouseDoubleClick="tabitemPhotos_MouseDoubleClick">
                             <TabItem.Header>
                                 Photos

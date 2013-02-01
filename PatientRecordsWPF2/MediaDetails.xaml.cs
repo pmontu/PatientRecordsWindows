@@ -34,6 +34,7 @@ namespace PatientRecordsWPF2
         {
             this.isVideo = isVideo;
             isNew = true;
+            txtName.Text = "capture";
         }
         public MediaDetails(Domain.Medium Medium)
             : this()
@@ -96,6 +97,7 @@ namespace PatientRecordsWPF2
 
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
+            Keyboard.Focus(txtName);   
         }
     }
 }
