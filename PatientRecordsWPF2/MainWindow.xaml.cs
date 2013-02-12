@@ -141,5 +141,13 @@ namespace PatientRecordsWPF2
         {
             cleanup();
         }
+
+        private void btnAdvancedSearch_Click(object sender, RoutedEventArgs e)
+        {
+            /* show analysis window dialog */
+            var wAnalysis = new Analysis();
+            wAnalysis.Owner = this;
+            wAnalysis.ShowDialog();
+        }
     }
 }

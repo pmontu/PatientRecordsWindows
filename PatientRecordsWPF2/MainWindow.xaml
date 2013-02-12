@@ -20,17 +20,19 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
+                <RowDefinition Height="Auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Label VerticalAlignment="Bottom" FontFamily="Trebuchet MS" 
         FontWeight="Bold" FontSize="18" Foreground="#0066cc">
-                View Patient Details
+                Patient Records
             </Label>
             <!--<Label Grid.Row="1" VerticalAlignment="Top" FontFamily="Trebuchet MS" 
         FontWeight="Bold" FontSize="12" Foreground="#0066cc">
                     add new              
             </Label>-->
-            <Button x:Name="btnAddNewPatient" Grid.Row="1" Style="{StaticResource LinkButton}" Click="btnAddNewPatient_Click" VerticalAlignment="Top" Margin="10,0,0,0">add new</Button>
+            <Button x:Name="btnAddNewPatient" Grid.Row="1" Style="{StaticResource LinkButton}" Click="btnAddNewPatient_Click" Margin="10,0,0,0">+ Add Patient</Button>
+            <Button x:Name="btnAdvancedSearch" Grid.Row="2" Style="{StaticResource LinkButton}" VerticalAlignment="Top" Margin="10,5,0,0" Click="btnAdvancedSearch_Click">? Analysis</Button>
         </Grid>
         
         <TextBox x:Name="txtSearchFilter" Grid.Column="1" Grid.Row="1" Height="24" TextChanged="txtSearchFilter_TextChanged" ToolTip="Search Filter"/>
