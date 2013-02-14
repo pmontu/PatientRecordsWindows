@@ -89,7 +89,9 @@
     <Compile Include="Analysis.xaml.cs">
       <DependentUpon>Analysis.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Analysis.cs" />
     <Compile Include="Domain\Media.cs" />
+    <Compile Include="Model\Analysis.cs" />
     <Compile Include="WebCam.cs" />
     <Page Include="Analysis.xaml">
       <SubType>Designer</SubType>
