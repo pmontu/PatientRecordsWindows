@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PatientRecordsWPF2.Domain
 {
-    class Analysis
+    public class Analysis
     {
         public List<string> Symptoms;
         public DateTime? From;

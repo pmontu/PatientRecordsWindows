@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PatientRecordsWPF2.ViewModels
@@ -19,11 +20,13 @@ namespace PatientRecordsWPF2.ViewModels
         private readonly ICommand removeSymptomCmd;
         private readonly ICommand addSymptomCmd;
         private readonly ObservableCollection<String> symptoms;
+        private Window View;
 
         private String symptom;
 
-        public AnalysisViewModel()
+        public AnalysisViewModel(Window v = null)
         {
+            View = v;
             analysis = new Domain.Analysis();
             analysisCmd = new RelayCommand(Analysis, CanAnalysis);
             removeSymptomCmd = new RelayCommand(RemoveSymptom);
@@ -77,6 +80,8 @@ namespace PatientRecordsWPF2.ViewModels
 
         private void Analysis(object obj)
         {
+            analysis.Symptoms = Symptoms.ToList<String>();
+            ((PatientRecordsWPF2.Analysis)View).openReport(analysis);
         }
 
         public ICommand RemoveSymptomCmd { get { return removeSymptomCmd; } }

@@ -15,21 +15,13 @@ using System.Windows.Shapes;
 namespace PatientRecordsWPF2
 {
     /// <summary>
-    /// Interaction logic for Analysis.xaml
+    /// Interaction logic for Report.xaml
     /// </summary>
-    public partial class Analysis : Window
+    public partial class Report : Window
     {
-        public Analysis()
+        public Report()
         {
             InitializeComponent();
-            DataContext = new ViewModels.AnalysisViewModel(this);
-        }
-
-        public void openReport(Domain.Analysis analysis)
-        {
-            var Report = new Report();
-            Report.Owner = this;
-            Report.ShowDialog();
         }
     }
 }
