@@ -15,12 +15,14 @@ namespace PatientRecordsWPF2.ViewModels
     {
         private readonly Domain.Analysis analysis;
         private readonly ICommand analysisCmd;
+        private readonly ICommand removeSymptomCmd;
         private readonly ObservableCollection<String> symptoms;
 
         public AnalysisViewModel()
         {
             analysis = new Domain.Analysis();
             analysisCmd = new RelayCommand(Analysis, CanAnalysis);
+            removeSymptomCmd = new RelayCommand(RemoveSymptom);
             symptoms = new ObservableCollection<string>();
             symptoms.Add("test");
         }
@@ -58,6 +60,13 @@ namespace PatientRecordsWPF2.ViewModels
 
         private void Analysis(object obj)
         {
+        }
+
+        public ICommand RemoveSymptomCmd { get { return removeSymptomCmd; } }
+
+        private void RemoveSymptom(object obj)
+        {
+            Symptoms.Remove((String)obj);
         }
 
 
