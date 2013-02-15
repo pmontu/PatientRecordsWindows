@@ -91,7 +91,8 @@
     </Compile>
     <Compile Include="Domain\Analysis.cs" />
     <Compile Include="Domain\Media.cs" />
-    <Compile Include="Model\Analysis.cs" />
+    <Compile Include="MVVM.Common\RelayCommand.cs" />
+    <Compile Include="ViewModels\AnalysisViewModel.cs" />
     <Compile Include="WebCam.cs" />
     <Page Include="Analysis.xaml">
       <SubType>Designer</SubType>
@@ -187,6 +188,9 @@
     <Content Include="ffmpeg.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BusinessLogicLayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -35,7 +35,7 @@
                     </Button.Style>
                 </Button>
             </Grid>
-            <ListBox x:Name="lbxSymptoms" Margin="20,2,0,2" Height="60" >
+            <ListBox x:Name="lbxSymptoms" ItemsSource="{Binding Path=Symptoms}" Margin="20,2,0,2" Height="60" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -43,7 +43,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="{Binding Name}" />
+                            <TextBlock Text="{Binding}" />
                             <Button x:Name="btnRemoveSymptom" Grid.Column="1" Style="{StaticResource LinkButton}" HorizontalAlignment="Right" Content="x" />
                         </Grid>
                     </DataTemplate>

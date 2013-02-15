@@ -22,6 +22,7 @@ namespace PatientRecordsWPF2
         public Analysis()
         {
             InitializeComponent();
+            DataContext = new ViewModels.AnalysisViewModel();
         }
     }
 }

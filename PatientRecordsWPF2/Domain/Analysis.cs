@@ -9,8 +9,8 @@ namespace PatientRecordsWPF2.Domain
     class Analysis
     {
         public List<string> Symptoms;
-        public DateTime From;
-        public DateTime To;
+        public DateTime? From;
+        public DateTime? To;
         public Analysis()
         {
             Symptoms = new List<string>();
