@@ -21,18 +21,15 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <controls:AutoCompleteBox x:Name="acbSymptom" Margin="0,0,2,0" Height="30" ItemsSource="{Binding}" IsTextCompletionEnabled="True" FilterMode="Contains"/>
-                <Button x:Name="btnAddSymptom" Grid.Column="1" Content="Add">
-                    <Button.Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="IsEnabled" Value="True" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=acbSymptom}" Value="">
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
+                <controls:AutoCompleteBox
+                    x:Name="acbSymptom" 
+                    Margin="0,0,2,0" 
+                    Height="30" 
+                    ItemsSource="{Binding SymptomsDb}" 
+                    Text="{Binding Symptom, Mode=TwoWay}" 
+                    IsTextCompletionEnabled="True" 
+                    FilterMode="Contains"/>
+                <Button x:Name="btnAddSymptom" Grid.Column="1" Content="Add" Command="{Binding AddSymptomCmd}">
                 </Button>
             </Grid>
             <ListBox x:Name="lbxSymptoms" ItemsSource="{Binding Path=Symptoms}" Margin="20,2,0,2" Height="60" >

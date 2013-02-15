@@ -1,5 +1,6 @@
 ﻿using MVVMSample.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,15 +17,31 @@ namespace PatientRecordsWPF2.ViewModels
         private readonly Domain.Analysis analysis;
         private readonly ICommand analysisCmd;
         private readonly ICommand removeSymptomCmd;
+        private readonly ICommand addSymptomCmd;
         private readonly ObservableCollection<String> symptoms;
+
+        private String symptom;
 
         public AnalysisViewModel()
         {
             analysis = new Domain.Analysis();
             analysisCmd = new RelayCommand(Analysis, CanAnalysis);
             removeSymptomCmd = new RelayCommand(RemoveSymptom);
+            addSymptomCmd = new RelayCommand(AddSymptom, CanAddSymptom);
             symptoms = new ObservableCollection<string>();
-            symptoms.Add("test");
+            SymptomsDb = new ObservableCollection<String>(BusinessLogicLayer.Symptom.getSymptomsDb());
+        }
+
+        public ObservableCollection<String> SymptomsDb { get; private set; }
+
+        public String Symptom
+        {
+            get { return symptom; }
+            set
+            {
+                symptom = value;
+                RaisePropertyChanged(() => this.Symptom);
+            }
         }
 
         public DateTime? From
@@ -69,6 +86,18 @@ namespace PatientRecordsWPF2.ViewModels
             Symptoms.Remove((String)obj);
         }
 
+        public ICommand AddSymptomCmd { get { return addSymptomCmd; } }
+
+        private void AddSymptom(object obj)
+        {
+            Symptoms.Add(Symptom);
+            Symptom = "";
+        }
+
+        private bool CanAddSymptom(object obj)
+        {
+            return !String.IsNullOrEmpty(Symptom);
+        }     
 
         public event PropertyChangedEventHandler PropertyChanged;
 
