@@ -16,4 +16,10 @@ namespace PatientRecordsWPF2.Domain
             Symptoms = new List<string>();
         }
     }
+    public class Report
+    {
+        public string Patient { get; set; }
+        public long Visits { get; set; }
+        public string Symptoms { get; set; }
+    }
 }
