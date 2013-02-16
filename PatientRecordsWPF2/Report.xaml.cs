@@ -20,20 +20,43 @@ namespace PatientRecordsWPF2
     /// </summary>
     public partial class Report : Window
     {
+        private Domain.Analysis Analysis;
+
         public Report()
         {
             InitializeComponent();
+        }
+        public Report(Domain.Analysis analysis)
+            : this()
+        {
+            Analysis = analysis;
         }
 
         private void wReport_Loaded(object sender, RoutedEventArgs e)
         {
             var session = ((App)Application.Current).session;
 
+            string inner = "";
+            foreach (string s in Analysis.Symptoms)
+            {
+                if (inner == "")
+                {
+                    inner += "select visit_id from symptom where name = '" + s + "'";
+                }
+                else
+                {
+                    inner += " intersect select visit_id from symptom where name = '" + s + "'";
+                }
+            }
+
+            string f = DateTime.Parse(Analysis.From.ToString()).ToString("yyyy-MM-dd");
+            string t = DateTime.Parse(Analysis.To.ToString()).ToString("yyyy-MM-dd");
+
             IQuery q = session.CreateSQLQuery("select pname as patient,count(distinct(dt)) as visits,group_concat(distinct(sym)) as symptoms "+
                                                 "from "+
                                                 "("+
                                                 "select name as sym,visit_id from symptom where visit_id in "+
-                                                "(select visit_id from symptom where name = 'ajay_v2_s1') "+
+                                                "(" + inner + ") " +
                                                 ") as s, "+
                                                 "( "+
                                                 "select "+
@@ -41,9 +64,9 @@ namespace PatientRecordsWPF2
                                                 "       date_of_examination as dt, "+
                                                 "       id as visit_id "+
                                                 "from visit "+
-                                                "where id in (select visit_id from symptom where name = 'ajay_v2_s1') "+
+                                                "where id in (" + inner + ") " +
                                                 ") as v "+
-                                                "where s.[visit_id] = v.[visit_id] "+
+                                                "where s.[visit_id] = v.[visit_id] and date(dt) between date('"+f+"') and date('"+t+"') " +
                                                 "group by pname "+
                                                 "order by visits desc,patient ");
 

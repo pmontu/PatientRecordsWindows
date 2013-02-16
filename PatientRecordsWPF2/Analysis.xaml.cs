@@ -27,7 +27,7 @@ namespace PatientRecordsWPF2
 
         public void openReport(Domain.Analysis analysis)
         {
-            var Report = new Report();
+            var Report = new Report(analysis);
             Report.Owner = this;
             Report.ShowDialog();
         }
