@@ -33,9 +33,14 @@ namespace PatientRecordsWPF2.ViewModels
             addSymptomCmd = new RelayCommand(AddSymptom, CanAddSymptom);
             symptoms = new ObservableCollection<string>();
             SymptomsDb = new ObservableCollection<String>(BusinessLogicLayer.Symptom.getSymptomsDb());
+            DiagnosisDb = new ObservableCollection<String>(BusinessLogicLayer.Visit.getDiagnosisDb());
+            From = DateTime.Now.AddMonths(-1);
+            To = DateTime.Now;
         }
 
         public ObservableCollection<String> SymptomsDb { get; private set; }
+
+        public ObservableCollection<String> DiagnosisDb { get; private set; }
 
         public String Symptom
         {
@@ -67,13 +72,23 @@ namespace PatientRecordsWPF2.ViewModels
             }
         }
 
+        public String Diagnosis
+        {
+            get { return analysis.Diagnosis; }
+            set
+            {
+                analysis.Diagnosis = value;
+                RaisePropertyChanged(() => this.Diagnosis);
+            }
+        }
+
         public ObservableCollection<String> Symptoms { get { return symptoms; } }
 
         public ICommand AnalysisCmd { get { return analysisCmd; } }
 
         private bool CanAnalysis(object obj)
         {
-            if(Symptoms.Count>0 && To!=null && From!=null)
+            if(To!=null && From!=null)
                 return true;
             return false;
         }

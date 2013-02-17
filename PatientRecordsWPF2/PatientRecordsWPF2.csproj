@@ -90,6 +90,7 @@
       <DependentUpon>Analysis.xaml</DependentUpon>
     </Compile>
     <Compile Include="BusinessLogicLayer\Symptom.cs" />
+    <Compile Include="BusinessLogicLayer\Visit.cs" />
     <Compile Include="Domain\Analysis.cs" />
     <Compile Include="Domain\Media.cs" />
     <Compile Include="MVVM.Common\RelayCommand.cs" />

@@ -48,32 +48,74 @@ namespace PatientRecordsWPF2
                     inner += " intersect select visit_id from symptom where name = '" + s + "'";
                 }
             }
+            if (!String.IsNullOrEmpty(Analysis.Diagnosis))
+            {
+                if (inner == "")
+                {
+                    inner += "select id from visit where diagnosis = '" + Analysis.Diagnosis + "'";
+                }
+                else
+                {
+                    inner += " intersect select id from visit where diagnosis = '" + Analysis.Diagnosis + "'";
+                }
+            }
+
+            /*removing where clause if no symptoms or diagnosis*/
+            string w1="", w2="";
+            if (inner != "")
+            {
+                w1 = "where id in (" + inner + ")";
+                w2 = "where visit_id in (" + inner + ")";
+            }
 
             string f = DateTime.Parse(Analysis.From.ToString()).ToString("yyyy-MM-dd");
             string t = DateTime.Parse(Analysis.To.ToString()).ToString("yyyy-MM-dd");
 
-            IQuery q = session.CreateSQLQuery("select pname as patient,count(distinct(dt)) as visits,group_concat(distinct(sym)) as symptoms "+
+            /*
+             * Left join two tables - to get 
+             *      number of visits: distinct datesofexamination
+             *      group of accompaniing symptoms in all those visits
+             *      diagnosis in all those visits
+             * one - visits which have symptoms and diagnosis
+             * two - symptoms in a visit with symptoms and diagnosis
+             * 
+             * Grouped by patient name, 
+             * orderd by number of visits and 
+             * filted by date*/
+
+            IQuery q = session.CreateSQLQuery("select pname as patient,"+
+                                                "   count(distinct(dt)) as visits,"+
+                                                "   case when (group_concat(distinct(sym))) is null then '' else group_concat(distinct(sym)) end as symptoms,"+
+                                                "   case when (group_concat(distinct(diagnosis))) is null then '' else group_concat(distinct(diagnosis)) end as diagnosis " +
                                                 "from "+
+                                                "( " +
+                                                "   select " +
+                                                "           (select name from patient where id = visit.patient_id) as pname, " +
+                                                "           date_of_examination as dt, " +
+                                                "           id as visit_id, " +
+                                                "           diagnosis " +
+                                                "   from visit " +
+                                                w1 +
+                                                ") as v " +
+                                                "left join "+
                                                 "("+
-                                                "select name as sym,visit_id from symptom where visit_id in "+
-                                                "(" + inner + ") " +
-                                                ") as s, "+
-                                                "( "+
-                                                "select "+
-                                                "       (select name from patient where id = visit.patient_id) as pname, "+
-                                                "       date_of_examination as dt, "+
-                                                "       id as visit_id "+
-                                                "from visit "+
-                                                "where id in (" + inner + ") " +
-                                                ") as v "+
-                                                "where s.[visit_id] = v.[visit_id] and date(dt) between date('"+f+"') and date('"+t+"') " +
+                                                "   select name as sym,visit_id from symptom "+
+                                                w2 +
+                                                ") as s "+                                                
+                                                "on s.[visit_id] = v.[visit_id] "+
+                                                "where date(dt) between date('"+f+"') and date('"+t+"') " +
                                                 "group by pname "+
                                                 "order by visits desc,patient ");
 
             IList<object> o = q.List<object>();
 
             var r = o
-              .Select(x => new Domain.Report() { Patient = (string)((object[])x)[0], Visits = (long)((object[])x)[1], Symptoms = (string)((object[])x)[2] })
+              .Select(x => new Domain.Report() { 
+                  Patient = (string)((object[])x)[0], 
+                  Visits = (long)((object[])x)[1], 
+                  Symptoms = (string)((object[])x)[2], 
+                  Diagnosis = (string)((object[])x)[3] 
+              })
               .ToList();
 
             dgReport.ItemsSource = r;

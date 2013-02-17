@@ -11,6 +11,7 @@ namespace PatientRecordsWPF2.Domain
         public List<string> Symptoms;
         public DateTime? From;
         public DateTime? To;
+        public string Diagnosis;
         public Analysis()
         {
             Symptoms = new List<string>();
@@ -21,5 +22,6 @@ namespace PatientRecordsWPF2.Domain
         public string Patient { get; set; }
         public long Visits { get; set; }
         public string Symptoms { get; set; }
+        public string Diagnosis { get; set; }
     }
 }
